@@ -1,0 +1,136 @@
+body {
+    font-family: sans-serif;
+    background-color: whitesmoke;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* add container */
+
+#add-container {
+    width: 100%;
+    display: flex;
+    margin: 1rem 0 1rem 0;
+    gap: 1rem;
+}
+
+input, button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    outline: none;
+    box-sizing: border-box;
+}
+
+input {
+    width: 100%;
+    border: 1px solid;
+    border-radius: 1rem;
+    padding: 0 1rem 0 1rem;
+}
+
+/* view toggle container */
+#view-toggle-container {
+    width: 100%;
+    display: flex;
+    margin: 1rem 0 1rem 0;
+    gap: 1rem;
+}
+
+#view-toggle-container button {
+    width: 50%;
+}
+
+/* task list container */
+
+
+/* card-view */
+
+ul.card-view {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    gap: 1rem;
+    list-style: none;
+    align-items: center;
+}
+
+.card-view li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    background-color: Orange;
+    border-radius: 1rem;
+    width: 100%;
+}
+
+/* list-view */
+
+ul.list-view {
+    display: block;
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: 1.5rem 1rem 1rem 2rem;
+    background-color: Orange;
+}
+
+.list-view li {
+    width: 100%;
+    height: 2rem;
+}
+
+
+/* buttons */
+
+/* global style */
+
+button {
+    width: 5rem;
+    height: 3rem;
+    border-radius: 1rem;
+    border: 1px solid black;
+    font-size: 1.2rem;
+}
+
+button.active {
+    background-color: CornflowerBlue;
+}
+
+button:hover {
+    cursor: grabbing;
+}
+
+button:active {
+    color: whitesmoke;
+}
+
+
+/* toggle view buttons */
+
+.toggle-btn:hover {
+    background-color: RoyalBlue;
+}
+
+
+/* add button*/
+#add-btn {
+    background-color: Orange;
+}
+
+#add-btn:hover {
+    background-color: DarkOrange;
+}
+
+#add-btn:active {
+    background-color: rgb(112, 255, 60);
+}
+
+
+
