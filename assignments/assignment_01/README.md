@@ -11,8 +11,9 @@ Starting from the concept of a pinboard, implement a web page that:
 
 ## Screenshots
 
-![SCREEN PROJ 01]( )
-![SCREEN PROJ 02]( )
+![Card view](DOCS/my_watchlist_card_view.png)
+![List view](my_watchlist_list_view.png)
+
 
 ## Short project description 
 
