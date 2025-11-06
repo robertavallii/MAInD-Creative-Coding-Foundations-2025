@@ -1,13 +1,16 @@
-/* ===== BASE ===== */
+/*base reset*/
 
-html{
+* {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-sizing: border-box;
+}
+
+html {
   font-size: 16px;
 }
 
-
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: #0f0f0f;
   color: #fff;
 }
@@ -15,8 +18,6 @@ body {
 main {
   padding: 0 3rem 3rem;
 }
-
-/* ===== HEADER ===== */
 .intestazione {
   display: flex;
   flex-direction: column;
@@ -37,13 +38,12 @@ main {
   color: #d1d5db;
   font-size: 1.2rem;
 }
-
-/* ===== TOOLBAR ===== */
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  gap: 1rem;
 }
 
 .view-toggle {
@@ -51,7 +51,9 @@ main {
   gap: 0.5rem;
 }
 
-/* ===== BOTTONI ===== */
+
+
+/*bottoni*/
 .btn-primario {
   background: #f8d448;
   color: #000;
@@ -76,46 +78,54 @@ main {
   text-underline-offset: 4px;
 }
 
+/* bacheca */
+.board {
+  width: 100%;
+}
 
-/* ===== BOARD ===== */
 .bacheca-card {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* ---- CARD VIEW ---- */
+/* card vista */
 .bacheca-card.card-view {
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
+  justify-content: flex-start;  
 }
 
 .bacheca-card.card-view .pin-card {
-  flex: 1 1 calc((100% - 2 * 1.25rem) / 3); /* 3 per riga */
-  box-sizing: border-box;
+flex: 0 0 calc((100% - 2 * 1.25rem) / 3); 
+  max-width: calc((100% - 2 * 1.25rem) / 3);
   background: #2b2b2b;
   border-radius: 14px;
   display: flex;
   gap: 1rem;
   padding: 1rem 1.3rem;
+  box-sizing: border-box;
+  position: relative;
 }
 
-/* ---- LIST VIEW ---- */
+.bacheca-card.card-view::after {
+  content: "";
+  flex: 0 0 450px;
+}
+
+/* lista viwe*/
 .bacheca-card.list-view {
-  display: block;
   background: #2b2b2b;
   border-radius: 16px;
-  padding: 0;
 }
 
 .bacheca-card.list-view .pin-card {
-  background: transparent;
-  border-radius: 0;
-  padding: 1rem 1.5rem;
   display: flex;
-  align-items: flex-start;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  position: relative;
 }
 
 .bacheca-card.list-view .pin-card + .pin-card {
@@ -123,9 +133,7 @@ main {
 }
 
 .bacheca-card.list-view .pin-thumb {
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
+  display: none;
 }
 
 .bacheca-card.list-view .pin-info {
@@ -134,11 +142,7 @@ main {
   gap: 0.25rem;
 }
 
-/* ===== CARD CONTENT ===== */
-.pin-card {
-  position: relative;
-}
-
+/*  card contnuti pin*/
 .pin-thumb {
   width: 62px;
   height: 62px;
@@ -158,6 +162,18 @@ main {
   display: block;
 }
 
+.pin-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pin-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .pin-info h3 {
   margin: 0;
   font-size: 1rem;
@@ -167,6 +183,25 @@ main {
   margin: 0.25rem 0 0;
   color: #d1d5db;
   font-size: 0.8rem;
+}
+
+.pin-edit {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pin-edit .icon-edit {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+.pin-edit:hover .icon-edit {
+  opacity: 1;
 }
 
 .pin-remove {
@@ -179,7 +214,7 @@ main {
   align-self: flex-start;
 }
 
-/* ===== MODALE ===== */
+/* banner modale aggiunta pin*/
 .overlay {
   position: fixed;
   inset: 0;
@@ -221,7 +256,6 @@ main {
   cursor: pointer;
 }
 
-/* corpo a 2 colonne */
 .modal-body {
   display: grid;
   grid-template-columns: 220px 1fr;
@@ -229,7 +263,6 @@ main {
   align-items: flex-start;
 }
 
-/* colonna sinistra: upload */
 .modal-image-upload {
   width: 100%;
   max-width: 220px;
@@ -238,17 +271,23 @@ main {
 .image-drop {
   width: 100%;
   aspect-ratio: 1 / 1;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,0.08);
   background: #e3e3da;
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #333;
   cursor: pointer;
+  gap: 0.8rem;
   overflow: hidden;
+}
+
+.image-drop:hover {
+  background: #dcdcd3;
 }
 
 .image-drop.has-image {
@@ -258,7 +297,12 @@ main {
   color: transparent;
 }
 
-/* colonna destra: 2 blocchi */
+.import-icon {
+  width: 48px;
+  height: 48px;
+  opacity: 0.8;
+}
+
 .modal-fields {
   display: flex;
   flex-direction: column;
@@ -281,12 +325,18 @@ main {
 .modal-fields textarea {
   width: 100%;
   background: #e3e3da;
-  border: none;
-  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
   padding: 0.6rem 0.8rem;
   font-size: 0.9rem;
   color: #000;
-  box-sizing: border-box;
+  outline: none;
+}
+
+.modal-fields input:focus,
+.modal-fields textarea:focus {
+  border: 1px solid #f8d448;
+  box-shadow: 0 0 0 2px rgba(248,212,72,0.22);
 }
 
 .modal-fields textarea {
@@ -294,34 +344,65 @@ main {
   resize: vertical;
 }
 
-/* footer sotto */
 .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
-/* responsive */
-@media (max-width: 700px) {
-  .modal-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
+.personalize-pin {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.color-control {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.color-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fff;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.color-label:hover {
+  color: #f8d448;
+}
+
+.color-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f8d448;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+}
+
+
+
+/* resp*/
+
+/*media per tablet mid */
+@media (max-width: 1024px) {
+  main {
+    padding: 0 1.5rem 2.5rem;
   }
 
-  .modal-image-upload {
-    max-width: 220px;
-  }
-
-
-
-  .bacheca-card.card-view .pin-card {
-    flex: 1 1 100%;
-  }
-
-  .modal-body {
-    flex-direction: column;
+  .intestazione {
+    padding: 2rem 1.5rem 1.5rem;
   }
 
   .toolbar {
@@ -329,6 +410,118 @@ main {
     align-items: flex-start;
     gap: 1rem;
   }
+
+  .bacheca-card.card-view {
+    justify-content: flex-start;
+    gap: 1.25rem;
+  }
+
+  .bacheca-card.card-view .pin-card {
+    flex: 0 0 calc(50% - 0.625rem);
+    max-width: calc(50% - 0.625rem);
+  }
+
+  .modal {
+    width: min(540px, 95vw);
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .modal-image-upload {
+    max-width: 220px;
+  }
 }
 
 
+/* media per mobile  piccolo*/
+@media (max-width: 620px) {
+  main {
+    padding: 0 1.25rem 2rem;
+  }
+
+  .intestazione {
+    padding: 1.8rem 1.25rem 1.2rem;
+  }
+
+  .titolo-app {
+    font-size: 2.1rem;
+  }
+
+  .sottotitolo-app {
+    font-size: 1rem;
+  }
+
+  .bacheca-card.card-view {
+    gap: 1rem;
+  }
+
+  .bacheca-card.card-view .pin-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .bacheca-card.list-view .pin-card {
+    flex-wrap: wrap;
+  }
+
+  .pin-remove {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.8rem;
+  }
+
+  .modal.hidden,
+  .overlay.hidden {
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+   .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(460px, 90vw);         
+    max-height: calc(100vh - 3rem);
+    border-radius: 16px;
+    padding: 0.9rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    overflow: hidden;
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;              
+    gap: 0.9rem;
+    overflow-y: auto;
+  }
+  .modal-image-upload {
+    width: 100%;
+    max-width: 200px;                 
+    margin-bottom: 0.5rem;
+  }
+
+  .image-drop {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 200px;
+    margin: 0 auto;                  
+  }
+  .modal-fields {
+    gap: 0.8rem;
+    width: 100%;
+  }
+  .modal-footer {
+    justify-content: flex-end;
+    margin-top: 0.4rem;
+  }
+}  
