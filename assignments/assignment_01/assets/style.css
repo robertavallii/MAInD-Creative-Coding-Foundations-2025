@@ -1,0 +1,334 @@
+/* ===== BASE ===== */
+
+html{
+  font-size: 16px;
+}
+
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0f0f0f;
+  color: #fff;
+}
+
+main {
+  padding: 0 3rem 3rem;
+}
+
+/* ===== HEADER ===== */
+.intestazione {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2.5rem 3rem 1.5rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.titolo-app {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sottotitolo-app {
+  margin: 0;
+  color: #d1d5db;
+  font-size: 1.2rem;
+}
+
+/* ===== TOOLBAR ===== */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ===== BOTTONI ===== */
+.btn-primario {
+  background: #f8d448;
+  color: #000;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.55rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.toggle-btn.active {
+  color: #f8d448;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+
+/* ===== BOARD ===== */
+.bacheca-card {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- CARD VIEW ---- */
+.bacheca-card.card-view {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.bacheca-card.card-view .pin-card {
+  flex: 1 1 calc((100% - 2 * 1.25rem) / 3); /* 3 per riga */
+  box-sizing: border-box;
+  background: #2b2b2b;
+  border-radius: 14px;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.3rem;
+}
+
+/* ---- LIST VIEW ---- */
+.bacheca-card.list-view {
+  display: block;
+  background: #2b2b2b;
+  border-radius: 16px;
+  padding: 0;
+}
+
+.bacheca-card.list-view .pin-card {
+  background: transparent;
+  border-radius: 0;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.bacheca-card.list-view .pin-card + .pin-card {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bacheca-card.list-view .pin-thumb {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.bacheca-card.list-view .pin-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* ===== CARD CONTENT ===== */
+.pin-card {
+  position: relative;
+}
+
+.pin-thumb {
+  width: 62px;
+  height: 62px;
+  background: #fff;
+  border-radius: 8px;
+  flex: 0 0 62px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pin-info h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.pin-info p {
+  margin: 0.25rem 0 0;
+  color: #d1d5db;
+  font-size: 0.8rem;
+}
+
+.pin-remove {
+  background: none;
+  border: none;
+  color: #fff;
+  margin-left: auto;
+  cursor: pointer;
+  font-size: 1rem;
+  align-self: flex-start;
+}
+
+/* ===== MODALE ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 50;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2b2b2b;
+  border-radius: 20px;
+  width: min(900px, 92vw);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem 1.25rem;
+  color: #fff;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* corpo a 2 colonne */
+.modal-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* colonna sinistra: upload */
+.modal-image-upload {
+  width: 100%;
+  max-width: 220px;
+}
+
+.image-drop {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid #ccc;
+  background: #e3e3da;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #333;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.image-drop.has-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: transparent;
+}
+
+/* colonna destra: 2 blocchi */
+.modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.field-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.modal-fields input,
+.modal-fields textarea {
+  width: 100%;
+  background: #e3e3da;
+  border: none;
+  border-radius: 12px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+  color: #000;
+  box-sizing: border-box;
+}
+
+.modal-fields textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+/* footer sotto */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* responsive */
+@media (max-width: 700px) {
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .modal-image-upload {
+    max-width: 220px;
+  }
+
+
+
+  .bacheca-card.card-view .pin-card {
+    flex: 1 1 100%;
+  }
+
+  .modal-body {
+    flex-direction: column;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+

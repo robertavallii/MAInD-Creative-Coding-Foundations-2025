@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My movie board</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/script.js" defer></script>
+  </head>
+  <body>
+    <!-- header intestazione titolo + -->
+    <header class="intestazione">
+        <h1 class="titolo-app">Titolo</h1>
+        <p class="sottotitolo-app">sosttotitolo sosttotitolo sosttotitolososttotitolo </p>
+
+    </header>
+
+    <main>
+      <!--  toolbar add + switch modalità -->
+      <div class="toolbar">
+        <button id="open-modal-btn" class="btn-primario">Add film +</button>
+        <div class="view-toggle" aria-label="Change view">
+          <button id="list-view-btn" class="toggle-btn">List view</button>
+          <button id="card-view-btn" class="toggle-btn active">Card view</button>
+        </div>
+      </div>
+
+      <!--  bacheca e pin -->
+      <section class="board">
+        <ul id="contenitore-pin" class="bacheca-card card-view">
+          <!-- tre pin esempio visibili -->
+          <li class="pin-card">
+            <div class="pin-thumb">
+              <img src="assets/image/matrix.jpg" alt="img film">
+            </div>
+            <div class="pin-info">
+              <h3 class="pin-title">Matrix</h3>
+              <p class="pin-description">Lana Wachowski, Lilly Wachowski (1999)</p>
+            </div>
+            <button class="pin-remove" aria-label="Remove">×</button>
+          </li>
+          <li class="pin-card">
+            <div class="pin-thumb">
+              <img src="assets/image/parasite.jpg" alt="img film">
+            </div>
+            <div class="pin-info">
+              <h3 class="pin-title">Parasite</h3>
+              <p class="pin-description">Bong Joon-ho (2019)</p>
+            </div>
+            <button class="pin-remove" aria-label="Remove">×</button>
+          </li>
+          <li class="pin-card">
+            <div class="pin-thumb">
+              <img src="assets/image/blade_runner.jpg" alt="img film">
+            </div>
+            <div class="pin-info">
+              <h3 class="pin-title">Blade Runner</h3>
+              <p class="pin-description">Ridley Scott (1982)</p>
+            </div>
+            <button class="pin-remove" aria-label="Remove">×</button>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- livello overlay -->
+    <div id="modal-overlay" class="overlay hidden"></div>
+
+    <!-- banner per aggiuna pin -->
+    <div id="create-pin-modal" class="modal hidden">
+      <div class="modal-header">
+        <h2 id="modal-title">Crea pin</h2>
+        <button id="close-modal-btn" class="close-modal" aria-label="Chiudi">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-image-upload">
+          <label for="pin-image" class="image-drop" id="image-preview">
+            <span>Scegli un file<br>o trascinalo qui</span>
+          </label>
+          <input type="file" id="pin-image" accept="image/*" hidden />
+        </div>
+
+      <div class="modal-fields">
+        <div class="field-block">
+          <label class="field-label" for="pin-title">Titolo</label>
+          <input type="text" id="pin-title" placeholder="Aggiungi un titolo" />
+        </div>
+      
+        <div class="field-block">
+          <label class="field-label" for="pin-description">Descrizione</label>
+          <textarea id="pin-description" placeholder="Aggiungi una descrizione"></textarea>
+        </div>
+      </div>      
+    </div>
+
+      <div class="modal-footer">
+        <button id="color-toggle-btn" type="button" class="btn-colore">Change colour</button>
+        <button id="add-pin-btn" class="btn-primario">Aggiungi</button>
+      </div>
+    </div>
+  </body>
+</html>
