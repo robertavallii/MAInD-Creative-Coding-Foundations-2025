@@ -19,13 +19,14 @@ const colorLabel = document.querySelector('.color-label');
 const colorPreview = document.getElementById('color-preview');
 const colorPicker = document.getElementById('color-picker');
 
+// 
+const DEFAULT_COLOR = '#2b2b2b';
+
 // stato
 let currentColor = '';
-let editingPin = null; // se è null 
+let editingPin = null; // se è null → stiamo creando
 
-
-// apertura e chiusra modale 
-
+// apertura e chiusura modale
 function openModal() {
   modal.classList.remove('hidden');
   overlay.classList.remove('hidden');
@@ -37,30 +38,29 @@ function closeModal() {
   editingPin = null;
 }
 
+// apre modale per nuovo pin
 openModalBtn.addEventListener('click', () => {
-
-  editingPin = null;
-
-  // reset campi modale
+  // reset manuale (potresti anche chiamare resetModalFields())
   titleInput.value = '';
   descInput.value = '';
   imageInput.value = '';
   imagePreview.style.backgroundImage = '';
   imagePreview.classList.remove('has-image');
 
-  // reset colore modale
+  // reset colore
   currentColor = '';
-  if (colorPicker) colorPicker.value = '#f8d448';
-  if (colorPreview) colorPreview.style.backgroundColor = '#f8d448';
+  if (colorPicker) colorPicker.value = DEFAULT_COLOR;
+  if (colorPreview) colorPreview.style.backgroundColor = DEFAULT_COLOR;
   if (colorLabel) colorLabel.textContent = 'Pin color';
 
+  editingPin = null;
   openModal();
 });
 
 closeModalBtn.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
-// anteprima img
+// anteprima immagine
 imageInput.addEventListener('change', () => {
   if (imageInput.files && imageInput.files[0]) {
     const imgURL = URL.createObjectURL(imageInput.files[0]);
@@ -72,9 +72,7 @@ imageInput.addEventListener('change', () => {
   }
 });
 
-
-
-// colour pickk
+// color picker
 function openColorPicker() {
   if (colorPicker) colorPicker.click();
 }
@@ -90,14 +88,12 @@ if (colorPicker) {
   });
 }
 
-
-// agg o modificare pin
-
+// aggiungere o modificare pin
 addPinBtn.addEventListener('click', () => {
   const title = titleInput.value.trim() || 'Nuovo titolo';
   const description = descInput.value.trim() || 'Nessuna descrizione';
 
-  // mod
+  // MODIFICA pin esistente
   if (editingPin) {
     const info = editingPin.querySelector('.pin-info');
     if (info) {
@@ -107,20 +103,22 @@ addPinBtn.addEventListener('click', () => {
       if (descEl) descEl.textContent = description;
     }
 
-    // colore
+    // applica colore scelto
     if (currentColor) {
       editingPin.style.backgroundColor = currentColor;
-      if (currentColor.toLowerCase() === '#f8d448') {
+      // se è il giallo chiaro → testo nero
+      if (currentColor.toLowerCase() === DEFAULT_COLOR) {
         editingPin.style.color = '#000';
       } else {
         editingPin.style.color = '';
       }
     } else {
+      // nessun colore scelto → rimuovi stile
       editingPin.style.backgroundColor = '';
       editingPin.style.color = '';
     }
 
-    // immagine (solo cambio)
+    // immagine (solo se l’utente ne ha caricata una nuova)
     if (imageInput.files && imageInput.files[0]) {
       const imgURL = URL.createObjectURL(imageInput.files[0]);
       const thumbImg = editingPin.querySelector('.pin-thumb img');
@@ -134,25 +132,24 @@ addPinBtn.addEventListener('click', () => {
     return;
   }
 
-  // 
+  // CREAZIONE nuovo pin
   let imageSrc = '';
   if (imageInput.files && imageInput.files[0]) {
     imageSrc = URL.createObjectURL(imageInput.files[0]);
   }
 
-  // <li> (???? sistemare!!!!!)
   const li = document.createElement('li');
   li.classList.add('pin-card');
 
-  // colore applicato 
+  // applica colore se scelto
   if (currentColor) {
     li.style.backgroundColor = currentColor;
-    if (currentColor.toLowerCase() === '#f8d448') {
+    if (currentColor.toLowerCase() === DEFAULT_COLOR) {
       li.style.color = '#000';
     }
   }
 
-  // thumb img
+  // thumb
   const thumb = document.createElement('div');
   thumb.classList.add('pin-thumb');
   if (imageSrc) {
@@ -166,7 +163,6 @@ addPinBtn.addEventListener('click', () => {
   const info = document.createElement('div');
   info.classList.add('pin-info');
 
-  // header con titolo + icona edit
   const header = document.createElement('div');
   header.classList.add('pin-header');
 
@@ -176,10 +172,9 @@ addPinBtn.addEventListener('click', () => {
 
   const editBtn = document.createElement('button');
   editBtn.classList.add('pin-edit');
-  
-  // icona svg 
+
   const editImg = document.createElement('img');
-  editImg.src = 'assets/icons/edit.svg';
+  editImg.src = 'assets/image/Icon_edit.svg';
   editImg.alt = 'modifica';
   editImg.classList.add('icon-edit');
   editBtn.appendChild(editImg);
@@ -194,7 +189,6 @@ addPinBtn.addEventListener('click', () => {
   info.appendChild(header);
   info.appendChild(descEl);
 
-  // rimuovi elemento pinboard
   const removeBtn = document.createElement('button');
   removeBtn.classList.add('pin-remove');
   removeBtn.textContent = '×';
@@ -206,7 +200,7 @@ addPinBtn.addEventListener('click', () => {
   closeModal();
 });
 
-// reset del modale
+// reset modale
 function resetModalFields() {
   titleInput.value = '';
   descInput.value = '';
@@ -215,16 +209,14 @@ function resetModalFields() {
   imagePreview.classList.remove('has-image');
 
   currentColor = '';
-  if (colorPicker) colorPicker.value = '#f8d448';
-  if (colorPreview) colorPreview.style.backgroundColor = '#f8d448';
+  if (colorPicker) colorPicker.value = DEFAULT_COLOR;
+  if (colorPreview) colorPreview.style.backgroundColor = DEFAULT_COLOR;
   if (colorLabel) colorLabel.textContent = 'Pin color';
 
   editingPin = null;
 }
 
-
-
-// eventi lista: rimuovi + modificare
+// eventi lista: rimuovi + modifica
 pinList.addEventListener('click', (event) => {
   // rimozione
   if (event.target.closest('.pin-remove')) {
@@ -233,7 +225,7 @@ pinList.addEventListener('click', (event) => {
     return;
   }
 
-  // modifica (usare closest perché click img nel "button"  )
+  // modifica
   const editButton = event.target.closest('.pin-edit');
   if (editButton) {
     const pin = event.target.closest('li');
@@ -249,21 +241,19 @@ pinList.addEventListener('click', (event) => {
     titleInput.value = titleEl ? titleEl.textContent : '';
     descInput.value = descEl ? descEl.textContent : '';
 
-    // colore esistente
+    // colore esistente sul pin
     const bg = pin.style.backgroundColor;
     if (bg) {
-      currentColor = rgbToHex(bg);
-      if (colorPicker) colorPicker.value = currentColor;
+      currentColor = bg;
       if (colorPreview) colorPreview.style.backgroundColor = currentColor;
-      if (colorLabel) colorLabel.textContent = `Pin color (${currentColor})`;
     } else {
       currentColor = '';
-      if (colorPicker) colorPicker.value = '#f8d448';
-      if (colorPreview) colorPreview.style.backgroundColor = '#f8d448';
-      if (colorLabel) colorLabel.textContent = 'Pin color';
+      if (colorPreview) colorPreview.style.backgroundColor = DEFAULT_COLOR;
     }
+    if (colorPicker) colorPicker.value = DEFAULT_COLOR; // mantieni un valore valido
+    if (colorLabel) colorLabel.textContent = 'Pin color';
 
-    // immagine inserimento anteprima ì anteprima
+    // immagine in anteprima
     if (thumbImg && thumbImg.src) {
       imagePreview.style.backgroundImage = `url(${thumbImg.src})`;
       imagePreview.classList.add('has-image');

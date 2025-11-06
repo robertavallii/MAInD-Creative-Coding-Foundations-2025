@@ -1,4 +1,3 @@
-/*base reset*/
 
 * {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -62,6 +61,10 @@ main {
   padding: 0.55rem 1.2rem;
   font-weight: 600;
   cursor: pointer;
+      transition: all 0.2s ease;
+}
+.btn-primario:hover {
+  background: #b29832;
 }
 
 .toggle-btn {
@@ -70,14 +73,19 @@ main {
   color: #d1d5db;
   cursor: pointer;
   font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .toggle-btn.active {
   color: #f8d448;
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 5px;
 }
 
+.toggle-btn:hover{
+    color: #b29832;
+
+}
 /* bacheca */
 .board {
   width: 100%;
@@ -114,7 +122,7 @@ flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
   flex: 0 0 450px;
 }
 
-/* lista viwe*/
+/* lista view*/
 .bacheca-card.list-view {
   background: #2b2b2b;
   border-radius: 16px;
@@ -213,6 +221,9 @@ flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
   font-size: 1rem;
   align-self: flex-start;
 }
+.pin-remove:hover {
+  color: #f8d448;
+}
 
 /* banner modale aggiunta pin*/
 .overlay {
@@ -221,7 +232,6 @@ flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
   background: rgba(0, 0, 0, 0.6);
   z-index: 50;
 }
-
 .modal {
   position: fixed;
   top: 50%;
@@ -256,12 +266,40 @@ flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
   cursor: pointer;
 }
 
+.close-modal:hover {
+  color: #f8d448;
+}
+
 .modal-body {
   display: grid;
   grid-template-columns: 220px 1fr;
   gap: 2rem;
   align-items: flex-start;
 }
+/* input area */
+#pin-title,
+#pin-description {
+  width: 100%;
+  background: #e3e3da;
+  color: #000;
+  border: none;
+  border-radius: 12px; 
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: none; 
+  box-sizing: border-box;
+  outline: none;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+/* stato focus uniforme */
+#pin-title:focus,
+#pin-description:focus {
+  background: #f0f0ec;
+  border: 1px solid #f8d448;
+}
+
 
 .modal-image-upload {
   width: 100%;
@@ -280,14 +318,17 @@ flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
   justify-content: center;
   text-align: center;
   font-size: 0.9rem;
-  color: #333;
+  font-weight: 400;
+  color: #6e6e6e;
   cursor: pointer;
-  gap: 0.8rem;
+  gap: 1rem;
   overflow: hidden;
 }
 
 .image-drop:hover {
   background: #dcdcd3;
+  border: 1px solid #f8d448;
+
 }
 
 .image-drop.has-image {
@@ -332,7 +373,6 @@ flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
   color: #000;
   outline: none;
 }
-
 .modal-fields input:focus,
 .modal-fields textarea:focus {
   border: 1px solid #f8d448;
@@ -373,28 +413,23 @@ flex: 0 0 calc((100% - 2 * 1.25rem) / 3);
 }
 
 .color-label:hover {
-  color: #f8d448;
+  color: #c4c4c4;
 }
 
 .color-circle {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #f8d448;
   border: 1px solid rgba(255,255,255,0.25);
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.3);
   cursor: pointer;
   transition: transform 0.2s ease;
 }
 
 .color-circle:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
-
-
 /* resp*/
-
 /*media per tablet mid */
 @media (max-width: 1024px) {
   main {
