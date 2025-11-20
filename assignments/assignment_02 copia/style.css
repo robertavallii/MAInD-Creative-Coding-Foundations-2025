@@ -1,0 +1,553 @@
+/* ==========================
+   FONT
+========================== */
+@font-face {
+  font-family: "PPmondwest";
+  src: url("asset/font/PPMondwest-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PPNeueBit";
+  src: url("asset/font/PPNeueBit-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Reset base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000000;
+  color: #ffffff;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+}
+
+#app {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ==========================
+   LAYOUT SCHERMI
+========================== */
+.screen {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.screen--center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen--hidden {
+  display: none;
+}
+
+/* ==========================
+   LISTA AVATAR (MENU)
+========================== */
+/* ==========================
+   LISTA AVATAR (MENU)
+========================== */
+.avatar-list {
+  max-width: 900px;
+  margin: 2rem auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.4rem;
+  flex-wrap: nowrap;       /* tutti in una sola riga */
+}
+
+/* card verticale */
+.avatar-button {
+  width: 130px;
+  height: 190px;
+  padding: 1.2rem 0.8rem;
+  background: #000000;
+  border-radius: 0.9rem;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  transition: transform 0.15s ease,
+              box-shadow 0.15s ease,
+              border-color 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-button:hover {
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.35);
+  border-color: #00FFFF;
+}
+
+.avatar-button--selected {
+  border-color: rgba(0, 255, 255, 0.35);                     /* bordo blu/neon */
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.85);
+}
+
+/* Anche se ci passi sopra, resta ferma */
+.avatar-button--selected:hover {
+  border-color: #00FFFF;
+  box-shadow: 0 0 24px rgba(0, 255, 255, 0.85);
+}
+
+.avatar-inner {
+  display: flex;
+  flex-direction: column;   /* cerchio sopra, testo sotto */
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.avatar-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+}
+
+.avatar-label {
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: #ffffff;
+  text-align: center;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+}
+
+/* Colori avatar nel MENU (già ok) */
+.avatar-yellow .avatar-circle {
+  background-color: #FFD700;
+  box-shadow: 0 0 10px #FFA500;
+}
+
+.avatar-pink .avatar-circle {
+  background-color: #FF1493;
+  box-shadow: 0 0 10px #FF69B4;
+}
+
+.avatar-cyan .avatar-circle {
+  background-color: #00FFFF;
+  box-shadow: 0 0 10px #0080FF;
+}
+
+.avatar-green .avatar-circle {
+  background-color: #00FF00;
+  box-shadow: 0 0 10px #39FF14;
+}
+
+.avatar-purple .avatar-circle {
+  background-color: #BF00FF;
+  box-shadow: 0 0 10px #8B00FF;
+}
+
+/* ==========================
+   TITOLI
+========================== */
+.title-neon {
+  font-family: "PPmondwest", "PPNeueBit", system-ui, sans-serif;
+  font-size: 3rem;
+  margin-bottom: 1.2rem;
+  color: #FFD700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.subtitle-neon {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #00FFFF;
+  letter-spacing: 0.08em;
+}
+
+
+/* (se usi ancora queste classi in altre parti) */
+.title-gameover {
+  font-family: "PPmondwest", "PPNeueBit", system-ui, sans-serif;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #FF0000;
+}
+
+.subtitle-score {
+  font-family: "PPNeueBit", system-ui, sans-serif;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #FFD700;
+}
+
+/* Titoli specifici pannello gameover */
+.titolo-gameover {
+  font-family: "PPmondwest", "PPNeueBit", system-ui, sans-serif;
+  font-size: 3rem;
+  color: #FF0000;
+  margin-bottom: 1.5rem;
+}
+
+.testo-punteggio {
+  font-family: "PPNeueBit", system-ui, sans-serif;
+  font-size: 1.8rem;
+  color: #FFD700;
+  margin-bottom: 2rem;
+}
+
+/* ==========================
+   LISTA AVATAR (MENU)
+========================== */
+
+.avatar-list {
+  max-width: 900px;
+  margin: 2rem auto;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: nowrap;  /* niente ritorno a capo */
+}
+
+
+.avatar-button {
+  width: 150px;                  /* larghezza fissa per controllare il layout */
+  height: 170px;
+  background: #000000;
+  border-radius: 0.75rem;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.avatar-button:hover {
+  box-shadow: 0 0 15px rgba(255,255,255,0.25);
+}
+
+.avatar-inner {
+  display: flex;
+  flex-direction: column;   /* cerchio sopra, testo sotto */
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.avatar-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+}
+
+.avatar-label {
+  font-size: 1.2rem;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.2;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+}
+
+/* ==========================
+   BOTTONE START GAME
+========================== */
+#start-game-btn {
+  margin-top: 2.2rem;
+  padding: 0.9rem 3.5rem;
+  font-size: 1rem;
+  font-family: "PPNeueBit", monospace;
+  border-radius: 1rem;
+  border: 2px solid #00FFFF;
+  background: #00FFFF;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;   /* così resta centrato nel menu */
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+              background-color 0.15s ease, color 0.15s ease;
+}
+
+#start-game-btn:hover {
+  box-shadow: 0 0 22px rgba(0, 255, 255, 0.55);
+  background: #001820;
+  color: #00FFFF;
+}
+
+/* Colori avatar nel MENU */
+.avatar-yellow .avatar-circle {
+  background-color: #FFD700;
+  box-shadow: 0 0 10px #FFA500;
+}
+
+.avatar-pink .avatar-circle {
+  background-color: #FF1493;
+  box-shadow: 0 0 10px #FF69B4;
+}
+
+.avatar-cyan .avatar-circle {
+  background-color: #00FFFF;
+  box-shadow: 0 0 10px #0080FF;
+}
+
+.avatar-green .avatar-circle {
+  background-color: #00FF00;
+  box-shadow: 0 0 10px #39FF14;
+}
+
+.avatar-purple .avatar-circle {
+  background-color: #BF00FF;
+  box-shadow: 0 0 10px #8B00FF;
+}
+
+/* ==========================
+   HUD / GAME SCREEN
+========================== */
+#game-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* HUD in alto (score, volume) */
+.hud {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.hud-score {
+  color: #FFD700;
+}
+
+/* Pulsante volume */
+.volume-btn {
+  background: #000;
+  color: #00FFFF;
+  border: 2px solid #00FFFF;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+}
+
+.volume-btn:hover {
+  background: #00FFFF;
+  color: #000;
+}
+
+/* ==========================
+   BOARD DEL GIOCO
+========================== */
+.board {
+  position: relative;
+  margin: 0 auto;
+}
+
+.cell {
+  position: absolute;
+}
+
+.cell-wall {
+  background-color: #0000FF;
+}
+
+.dot {
+  position: absolute;
+  border-radius: 999px;
+  background-color: #FFD700;
+}
+
+.ghost {
+  position: absolute;
+  transition: top 0.22s linear, left 0.22s linear;
+}
+
+.pacman {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #FFD700;
+  box-shadow: 0 0 15px #FFA500;
+  transition: top 0.14s linear, left 0.14s linear, transform 0.1s linear;
+  transform: rotate(var(--pacman-rotation, 0deg));
+  overflow: hidden;
+}
+
+/* before per creare la bocca */
+.pacman::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  clip-path: polygon(50% 50%, 100% 30%, 100% 70%);
+}
+
+.instructions {
+  margin-top: 1rem;
+  color: #00FFFF;
+  text-align: center;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+}
+
+/* ==========================
+   PULSANTI GENERICI
+========================== */
+.btn-primary {
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 0.7rem;
+  border: none;
+  cursor: pointer;
+  background-color: #00FFFF;
+  color: #000000;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+  transition: transform 0.15s ease;
+}
+
+
+/* ==========================
+   SKIN SELECTOR IN-GAME
+========================== */
+/* ==========================
+   SKIN SELECTOR IN-GAME (versione compatta e bella)
+========================== */
+
+.instructions {
+  margin-top: 0.8rem;  
+  font-size: 0.85rem;
+  color: #00FFFF;
+  text-align: center;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+}
+
+.skin-selector {
+  margin-top: 0.3rem;        /* meno spazio */
+  text-align: center;
+  color: #00FFFF;
+  font-size: 0.75rem;        /* ridotto */
+  letter-spacing: 0.02em;
+}
+
+.skin-options {
+  display: flex;
+  gap: 0.6rem;               /* pallini più vicini */
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+
+.skin-option {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  box-shadow: 0 0 10px rgba(255,255,255,0.25);
+}
+
+.skin-option:hover {
+  transform: scale(1.15);
+}
+
+/* stato selezionato */
+.skin-option.active {
+  border-color: #00FFFF;
+  box-shadow: 0 0 14px rgba(0,255,255,0.7);
+  transform: scale(1.18);
+}
+
+
+
+
+
+
+
+/* ==========================
+   PANNELLO MENU
+========================== */
+.menu-box {
+  text-align: center;
+  padding: 2.6rem 3.2rem 2.4rem;
+  background: #000000;
+  border-radius: 1.4rem;
+  border: 2px solid #00FFFF;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.45);
+  max-width: 780px;
+  width: 100%;
+}
+
+
+/* ==========================
+   PANNELLO GAME OVER
+========================== */
+.schermo {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.centrato {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nascosto {
+  display: none;
+}
+
+#schermo-gameover {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 2000;
+}
+
+.pannello-gameover {
+  background: #000;
+  border: 2px solid #FFD700;
+  border-radius: 1rem;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+}
+
+.bottoni-gameover button {
+  padding: 0.6rem 1.6rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+  border: 2px solid #00FFFF;
+  background: #000;
+  color: #00FFFF;
+  margin: 0 0.5rem;
+  transition: 0.2s ease;
+}
+
+.bottoni-gameover button:hover {
+  background: #00FFFF;
+  color: #000;
+}
+
+
+.testo-timer {
+  margin-top: 0.5rem;          /* distanza dal punteggio */
+  margin-bottom: 2rem;         /* distanza dai bottoni */
+  font-size: 0.95rem;
+  color: #cfd8dc;              /* grigio chiaro morbido */
+  opacity: 0.85;
+  letter-spacing: 0.05em;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+}
+
