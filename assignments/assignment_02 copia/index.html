@@ -1,120 +1,119 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <title>Pac-Man Neon</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pac-Man Neon</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-  <div id="app">
+  <body>
+    <div id="app">
 
-    <!-- MENU INIZIALE: scelta skin -->
-    <section id="menu-screen" class="screen screen--center">
-  <div class="menu-box">
+      <!-- pannello iniziale e scelta skin -->
+      <section id="menu-screen" class="screen screen--center">
+        <div class="menu-box">
 
-    <h1 class="title-neon">PACMAN</h1>
-    <h2 class="subtitle-neon">Select skin colour</h2>
-
-    <div id="avatar-list" class="avatar-list">
-      <button class="avatar-button avatar-yellow" data-avatar-index="0">
-        <div class="avatar-inner">
-          <div class="avatar-circle"></div>
-          <span class="avatar-label">Yellow</span>
-        </div>
-      </button>
-
-      <button class="avatar-button avatar-pink" data-avatar-index="1">
-        <div class="avatar-inner">
-          <div class="avatar-circle"></div>
-          <span class="avatar-label">Pink</span>
-        </div>
-      </button>
-
+          <h1 class="title-neon">PACMAN</h1>
+          <h2 class="subtitle-neon">Select skin colour</h2>
+          <div id="avatar-list" class="avatar-list">
+            <button class="avatar-button avatar-yellow" data-avatar-index="0">
+              <div class="avatar-inner">
+                <div class="avatar-circle"></div>
+                <span class="avatar-label">Yellow</span>
+              </div>
+            </button>
+            <button class="avatar-button avatar-pink" data-avatar-index="1">
+              <div class="avatar-inner">
+                <div class="avatar-circle"></div>
+            <span class="avatar-label">Pink</span>
+          </div>
+        </button>
       <button class="avatar-button avatar-cyan" data-avatar-index="2">
-        <div class="avatar-inner">
-          <div class="avatar-circle"></div>
-          <span class="avatar-label">Light blue </span>
-        </div>
-      </button>
+          <div class="avatar-inner">
+            <div class="avatar-circle"></div>
+      <span class="avatar-label">Light blue </span>
+              </div>
+            </button>
 
-      <button class="avatar-button avatar-green" data-avatar-index="3">
-        <div class="avatar-inner">
-          <div class="avatar-circle"></div>
-          <span class="avatar-label">Green</span>
-        </div>
-      </button>
+            <button class="avatar-button avatar-green" data-avatar-index="3">
+              <div class="avatar-inner">
+                <div class="avatar-circle"></div>
+                <span class="avatar-label">Green</span>
+              </div>
+            </button>
 
-      <button class="avatar-button avatar-purple" data-avatar-index="4">
-        <div class="avatar-inner">
-          <div class="avatar-circle"></div>
-          <span class="avatar-label">Purple</span>
+            <button class="avatar-button avatar-purple" data-avatar-index="4">
+              <div class="avatar-inner">
+                <div class="avatar-circle"></div>
+                <span class="avatar-label">Purple</span>
+              </div>
+            </button>
+          </div>
+
+          <button id="start-game-btn">START GAME</button>
+
         </div>
-      </button>
+      </section>
+
+      <!-- schermata gioco -->
+      <section id="game-screen" class="screen screen--center screen--hidden">
+
+        <h1 class="title-neon title-neon--game">PACMAN</h1>
+
+        <!-- hud score skin colume -->
+        <div class="hud">
+          <div class="hud-item hud-score">
+            SCORE: <span id="score-value">0</span>
+          </div>
+
+          <div id="skin-selector" class="skin-selector">
+            <p class="skin-label">Select skin colour</p>
+
+            <div id="skin-options" class="skin-options">
+              <button class="skin-option skin-option-yellow" data-avatar-index="0" aria-label="Giallo Classico"></button>
+              <button class="skin-option skin-option-pink"   data-avatar-index="1" aria-label="Neon Rosa"></button>
+              <button class="skin-option skin-option-cyan"   data-avatar-index="2" aria-label="Cyber Blu"></button>
+              <button class="skin-option skin-option-green"  data-avatar-index="3" aria-label="Verde Acido"></button>
+              <button class="skin-option skin-option-purple" data-avatar-index="4" aria-label="Viola Elettrico"></button>
+            </div>
+          </div>
+
+          <button id="volume-btn" class="volume-btn">VOLUME: ON</button>
+        </div>
+
+        <!-- board gioco -->
+        <div id="game-board" class="board"></div>
+
+        <!-- istruzioni gioco -->
+        <div class="instructions">
+          Use the arrow keys to move around
+        </div>
+
+      </section>
+
+      <!-- pann. game over -->
+      <section id="schermo-gameover" class="schermo centrato nascosto">
+        <div class="pannello-gameover">
+          <h1 class="titolo-gameover">GAME OVER</h1>
+
+          <p class="testo-punteggio">
+            PUNTEGGIO: <span id="punteggio-finale">0</span>
+          </p>
+
+          <p class="testo-timer">
+            Riavvio automatico tra <span id="secondi-restart">5</span> secondi...
+          </p>
+
+          <div class="bottoni-gameover">
+            <button id="bottone-rigioca" class="btn-primario">RIGIOCA</button>
+            <button id="bottone-menu" class="btn-secondario">MENU PRINCIPALE</button>
+          </div>
+        </div>
+      </section>
+
     </div>
+  
+    <script src="script.js"></script>
 
-    <button id="start-game-btn">START GAME</button>
-
-  </div>
-</section>
-
-
-    <!-- SCHERMATA DI GIOCO -->
-    <section id="game-screen" class="screen screen--center screen--hidden">
-
-      <h1 class="title-neon title-neon--game">PACMAN</h1>
-
-      <div class="hud">
-        <div class="hud-item hud-score">
-          SCORE: <span id="score-value">0</span>
-        </div>
-
-        <button id="volume-btn" class="volume-btn">VOLUME: ON</button>
-      </div>
-
-      <div id="game-board" class="board"></div>
-
-      <div class="instructions">
-        Use the arrow keys to move around
-      </div>
-
-      <div id="skin-selector" class="skin-selector">
-        <p>Select skin colour</p>
-        <div id="skin-options" class="skin-options">
-          <button class="skin-option skin-option-yellow" data-avatar-index="0" aria-label="Giallo Classico"></button>
-          <button class="skin-option skin-option-pink"   data-avatar-index="1" aria-label="Neon Rosa"></button>
-          <button class="skin-option skin-option-cyan"   data-avatar-index="2" aria-label="Cyber Blu"></button>
-          <button class="skin-option skin-option-green"  data-avatar-index="3" aria-label="Verde Acido"></button>
-          <button class="skin-option skin-option-purple" data-avatar-index="4" aria-label="Viola Elettrico"></button>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- SCHERMATA DI GAME OVER -->
-     <section id="schermo-gameover" class="schermo centrato nascosto">
-  <div class="pannello-gameover">
-    <h1 class="titolo-gameover">GAME OVER</h1>
-
-    <p class="testo-punteggio">
-      PUNTEGGIO: <span id="punteggio-finale">0</span>
-    </p>
-
-    <!-- NUOVO: testo timer -->
-    <p class="testo-timer">
-      Riavvio automatico tra <span id="secondi-restart">5</span> secondi...
-    </p>
-
-    <div class="bottoni-gameover">
-      <button id="bottone-rigioca" class="btn-primario">RIGIOCA</button>
-      <button id="bottone-menu" class="btn-secondario">MENU PRINCIPALE</button>
-    </div>
-  </div>
-</section>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+  </body>
 </html>
-
-

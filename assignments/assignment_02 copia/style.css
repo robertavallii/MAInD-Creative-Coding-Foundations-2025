@@ -1,6 +1,4 @@
-/* ==========================
-   FONT
-========================== */
+/* inserimento font */
 @font-face {
   font-family: "PPmondwest";
   src: url("asset/font/PPMondwest-Regular.otf") format("opentype");
@@ -15,7 +13,7 @@
   font-style: normal;
 }
 
-/* Reset base */
+/* rese */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -35,9 +33,7 @@ body {
   min-height: 100vh;
 }
 
-/* ==========================
-   LAYOUT SCHERMI
-========================== */
+/*layout screen sistemare!! */
 .screen {
   min-height: 100vh;
   width: 100%;
@@ -53,12 +49,7 @@ body {
   display: none;
 }
 
-/* ==========================
-   LISTA AVATAR (MENU)
-========================== */
-/* ==========================
-   LISTA AVATAR (MENU)
-========================== */
+
 .avatar-list {
   max-width: 900px;
   margin: 2rem auto 0;
@@ -66,10 +57,10 @@ body {
   justify-content: center;
   align-items: stretch;
   gap: 1.4rem;
-  flex-wrap: nowrap;       /* tutti in una sola riga */
+  flex-wrap: nowrap;       
 }
 
-/* card verticale */
+
 .avatar-button {
   width: 130px;
   height: 190px;
@@ -92,19 +83,13 @@ body {
 }
 
 .avatar-button--selected {
-  border-color: rgba(0, 255, 255, 0.35);                     /* bordo blu/neon */
+  border-color: rgba(0, 255, 255, 0.35);                    
   box-shadow: 0 0 12px rgba(0, 255, 255, 0.85);
-}
-
-/* Anche se ci passi sopra, resta ferma */
-.avatar-button--selected:hover {
-  border-color: #00FFFF;
-  box-shadow: 0 0 24px rgba(0, 255, 255, 0.85);
 }
 
 .avatar-inner {
   display: flex;
-  flex-direction: column;   /* cerchio sopra, testo sotto */
+  flex-direction: column;   
   align-items: center;
   gap: 0.8rem;
 }
@@ -123,7 +108,7 @@ body {
   font-family: "PPNeueBit", system-ui, sans-serif;
 }
 
-/* Colori avatar nel MENU (già ok) */
+/* Colori avatar nel menu */
 .avatar-yellow .avatar-circle {
   background-color: #FFD700;
   box-shadow: 0 0 10px #FFA500;
@@ -149,9 +134,7 @@ body {
   box-shadow: 0 0 10px #8B00FF;
 }
 
-/* ==========================
-   TITOLI
-========================== */
+/* titoli */
 .title-neon {
   font-family: "PPmondwest", "PPNeueBit", system-ui, sans-serif;
   font-size: 3rem;
@@ -169,22 +152,8 @@ body {
 }
 
 
-/* (se usi ancora queste classi in altre parti) */
-.title-gameover {
-  font-family: "PPmondwest", "PPNeueBit", system-ui, sans-serif;
-  font-size: 3rem;
-  margin-bottom: 2rem;
-  color: #FF0000;
-}
 
-.subtitle-score {
-  font-family: "PPNeueBit", system-ui, sans-serif;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #FFD700;
-}
-
-/* Titoli specifici pannello gameover */
+/* Titoli  gameover */
 .titolo-gameover {
   font-family: "PPmondwest", "PPNeueBit", system-ui, sans-serif;
   font-size: 3rem;
@@ -199,9 +168,9 @@ body {
   margin-bottom: 2rem;
 }
 
-/* ==========================
-   LISTA AVATAR (MENU)
-========================== */
+/* 
+avatar del menu
+ */
 
 .avatar-list {
   max-width: 900px;
@@ -209,12 +178,12 @@ body {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  flex-wrap: nowrap;  /* niente ritorno a capo */
+  flex-wrap: nowrap;  
 }
 
 
 .avatar-button {
-  width: 150px;                  /* larghezza fissa per controllare il layout */
+  width: 150px;                  
   height: 170px;
   background: #000000;
   border-radius: 0.75rem;
@@ -233,7 +202,7 @@ body {
 
 .avatar-inner {
   display: flex;
-  flex-direction: column;   /* cerchio sopra, testo sotto */
+  flex-direction: column;   
   align-items: center;
   gap: 0.7rem;
 }
@@ -252,9 +221,7 @@ body {
   font-family: "PPNeueBit", system-ui, sans-serif;
 }
 
-/* ==========================
-   BOTTONE START GAME
-========================== */
+/* bottone start game */
 #start-game-btn {
   margin-top: 2.2rem;
   padding: 0.9rem 3.5rem;
@@ -265,7 +232,7 @@ body {
   background: #00FFFF;
   color: #000;
   cursor: pointer;
-  display: inline-block;   /* così resta centrato nel menu */
+  display: inline-block;   
   transition: transform 0.15s ease, box-shadow 0.15s ease,
               background-color 0.15s ease, color 0.15s ease;
 }
@@ -302,31 +269,42 @@ body {
   box-shadow: 0 0 10px #8B00FF;
 }
 
-/* ==========================
-   HUD / GAME SCREEN
-========================== */
+/* hud screen gioco*/
 #game-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center;   
+  min-height: 100vh;        
+  padding-top: 0;            
+  gap: 1rem;                
 }
 
-/* HUD in alto (score, volume) */
 .hud {
   display: flex;
-  gap: 2rem;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  justify-content: center;
-  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  width: 460px;         
+  max-width: 90vw;
+  margin: 0 0 0.8rem;
+  font-size: 1.1rem;
 }
-
 .hud-score {
   color: #FFD700;
 }
 
-/* Pulsante volume */
+.hud-skin {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.hud-volume {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
 .volume-btn {
   background: #000;
   color: #00FFFF;
@@ -343,9 +321,21 @@ body {
   color: #000;
 }
 
-/* ==========================
-   BOARD DEL GIOCO
-========================== */
+
+.hud {
+  display: flex;
+  gap: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.hud-score {
+  color: #FFD700;
+}
+
+/*  boa gioco*/
 .board {
   position: relative;
   margin: 0 auto;
@@ -392,8 +382,6 @@ body {
 }
 
 .instructions {
-  margin-top: 1rem;
-  color: #00FFFF;
   text-align: center;
   font-family: "PPNeueBit", system-ui, sans-serif;
 }
@@ -414,67 +402,88 @@ body {
   transition: transform 0.15s ease;
 }
 
-
-/* ==========================
-   SKIN SELECTOR IN-GAME
-========================== */
-/* ==========================
-   SKIN SELECTOR IN-GAME (versione compatta e bella)
-========================== */
-
-.instructions {
-  margin-top: 0.8rem;  
-  font-size: 0.85rem;
-  color: #00FFFF;
-  text-align: center;
-  font-family: "PPNeueBit", system-ui, sans-serif;
-}
+/* selz. skin nel gioco */
 
 .skin-selector {
-  margin-top: 0.3rem;        /* meno spazio */
   text-align: center;
   color: #00FFFF;
-  font-size: 0.75rem;        /* ridotto */
-  letter-spacing: 0.02em;
+}
+
+.skin-selector p {
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.25rem;
 }
 
 .skin-options {
   display: flex;
-  gap: 0.6rem;               /* pallini più vicini */
+  gap: 0.5rem;
   justify-content: center;
-  margin-top: 0.4rem;
 }
 
 .skin-option {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 1px solid #ffffff;
   cursor: pointer;
-  transition: transform 0.15s ease;
-  box-shadow: 0 0 10px rgba(255,255,255,0.25);
+  box-shadow: 0 0 8px rgba(255,255,255,0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
 .skin-option:hover {
   transform: scale(1.15);
 }
 
-/* stato selezionato */
+
 .skin-option.active {
   border-color: #00FFFF;
-  box-shadow: 0 0 14px rgba(0,255,255,0.7);
+  box-shadow: 0 0 12px rgba(0,255,255,0.8);
   transform: scale(1.18);
+}
+
+
+/* colori skin nel gioco selz. */
+.skin-option-yellow {
+  background-color: #FFD700;
+  box-shadow: 0 0 10px #FFA500;
+}
+
+.skin-option-pink {
+  background-color: #FF1493;
+  box-shadow: 0 0 10px #FF69B4;
+}
+
+.skin-option-cyan {
+  background-color: #00FFFF;
+  box-shadow: 0 0 10px #0080FF;
+}
+
+.skin-option-green {
+  background-color: #00FF00;
+  box-shadow: 0 0 10px #39FF14;
+}
+
+.skin-option-purple {
+  background-color: #BF00FF;
+  box-shadow: 0 0 10px #8B00FF;
+}
+
+/* comandi gioco */
+
+.instructions {
+  margin-top: 1.2rem;
+  font-size: 1.3rem;
+  color: #00FFFF;
+  text-align: center;
+  font-family: "PPNeueBit", system-ui, sans-serif;
+  letter-spacing: 0.03em;
 }
 
 
 
 
-
-
-
-/* ==========================
-   PANNELLO MENU
-========================== */
+/* pann. menu */
 .menu-box {
   text-align: center;
   padding: 2.6rem 3.2rem 2.4rem;
@@ -487,9 +496,9 @@ body {
 }
 
 
-/* ==========================
-   PANNELLO GAME OVER
-========================== */
+
+
+/*game over pann */
 .schermo {
   width: 100%;
   min-height: 100vh;
@@ -542,10 +551,10 @@ body {
 
 
 .testo-timer {
-  margin-top: 0.5rem;          /* distanza dal punteggio */
-  margin-bottom: 2rem;         /* distanza dai bottoni */
+  margin-top: 0.5rem;          
+  margin-bottom: 2rem;         
   font-size: 0.95rem;
-  color: #cfd8dc;              /* grigio chiaro morbido */
+  color: #cfd8dc;              
   opacity: 0.85;
   letter-spacing: 0.05em;
   font-family: "PPNeueBit", system-ui, sans-serif;

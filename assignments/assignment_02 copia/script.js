@@ -412,9 +412,8 @@ function stopGhosts() {
   }
 }
 
-// ================================
-// MOVIMENTO DI PAC-MAN
-// ================================
+// movimento pacman
+
 
 function tryMovePacman() {
   let newX = pacman.x;
@@ -425,7 +424,7 @@ function tryMovePacman() {
   else if (pacman.direction === "left") newX--;
   else if (pacman.direction === "right") newX++;
 
-  // Blocca sui muri o fuori mappa
+  // blocchi al mov.
   if (!maze[newY] || maze[newY][newX] !== 0) {
     return;
   }
@@ -433,7 +432,7 @@ function tryMovePacman() {
   pacman.x = newX;
   pacman.y = newY;
 
-  // Mangia il pallino
+  // mangiare pallno
   const dotIndex = dots.findIndex((dot) => dot.x === newX && dot.y === newY);
   if (dotIndex !== -1) {
     const eaten = dots[dotIndex];
@@ -481,15 +480,12 @@ function handleKeyDown(e) {
   }
 }
 
-// ================================
-// AVVIO PARTITA
-// ================================
+// restart partita (rivedere)
 
 function startGame(avatarIndex) {
   selectedAvatarIndex = avatarIndex;
   gameState = "playing";
 
-  // Nascondo pannello game over e stoppo timer autorestart
   if (schermoGameover) {
     schermoGameover.classList.add("nascosto");
   }
@@ -514,32 +510,29 @@ function startGame(avatarIndex) {
   showScreen("playing");
   startGhosts();
 
-  // 👉 suono di start
+  // suono start game 
   riproduciSuono(suonoStart);
-  // la musica di playing partirà automaticamente su "ended"
 }
 
-// ================================
-// INIZIALIZZAZIONE DOM
-// ================================
+// inizializz. dom
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Schermate
+
   menuScreen = document.getElementById("menu-screen");
   gameScreen = document.getElementById("game-screen");
 
-  // Board e HUD
+  // board e hud
   boardEl = document.getElementById("game-board");
   scoreEl = document.getElementById("score-value");
 
-  // Pannello game over
+  // pann. game over
   schermoGameover   = document.getElementById("schermo-gameover");
   finalScoreEl      = document.getElementById("punteggio-finale");
   bottoneRigioca    = document.getElementById("bottone-rigioca");
   bottoneMenu       = document.getElementById("bottone-menu");
   secondiRestartSpan = document.getElementById("secondi-restart");
 
-  // Pulsante volume
+  // pulsante volume
   volumeBtn = document.getElementById("volume-btn");
   volumeBtn.addEventListener("click", () => {
     volumeOn = !volumeOn;
@@ -548,14 +541,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!volumeOn) {
       fermaTuttiISuoni();
     } else {
-      // se torni ON mentre sei in gioco e lo start è già finito → riavvia solo playing
+      // volume mentre giochi 1!!!!1
       if (gameState === "playing" && suonoStart.ended) {
         avviaMusicaGioco();
       }
     }
   });
 
-  // Selettore skin IN-GAME
+  // selezione della skin durante il gioco e cambio 
   const skinOptionEls = document.querySelectorAll(".skin-option");
   skinOptionEls.forEach((btn) => {
     const index = parseInt(btn.dataset.avatarIndex, 10);
@@ -567,7 +560,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Bottoni avatar nel MENU (solo selezione skin)
+  // bott. avatar menu iniz.
   const avatarButtons = document.querySelectorAll(".avatar-button");
   avatarButtons.forEach((btn) => {
     const index = parseInt(btn.dataset.avatarIndex, 10);
@@ -575,14 +568,14 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.addEventListener("click", () => {
         selectedAvatarIndex = index;
 
-        // evidenzia avatar selezionato (classe da stilare in CSS)
+        // selezione bott avatar  nel +  css
         avatarButtons.forEach(b => b.classList.remove("avatar-button--selected"));
         btn.classList.add("avatar-button--selected");
       });
     }
   });
 
-  // Bottone START GAME (parte solo se è stata scelta una skin)
+  // bott. start GAME
   const startBtn = document.getElementById("start-game-btn");
   if (startBtn) {
     startBtn.addEventListener("click", () => {
@@ -591,7 +584,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Bottoni GAME OVER
+  // BOt. game over
   if (bottoneRigioca) {
     bottoneRigioca.addEventListener("click", () => {
       if (selectedAvatarIndex === null) return;
@@ -615,10 +608,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Controlli da tastiera
+  // tastiera per movimento 
   window.addEventListener("keydown", handleKeyDown);
 
-  // Stato iniziale (solo per avere i dati pronti, il gioco parte da START)
+  // stato inziale (rivedere!)
   maze = createMaze();
   initializeDots();
   showScreen("menu");
