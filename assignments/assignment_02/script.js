@@ -1,12 +1,8 @@
-// ================================
-// CONFIGURAZIONE DI BASE
-// ================================
-
 const CELL_SIZE = 30;
 const GRID_WIDTH = 15;
 const GRID_HEIGHT = 15;
 
-// Skin disponibili per Pac-Man
+// skin  pacman
 const AVATAR_COLORS = [
   { name: "Giallo Classico", color: "#FFD700", glow: "#FFA500" },
   { name: "Neon Rosa",       color: "#FF1493", glow: "#FF69B4" },
@@ -15,17 +11,16 @@ const AVATAR_COLORS = [
   { name: "Viola Elettrico", color: "#BF00FF", glow: "#8B00FF" }
 ];
 
-// Timer autorestart (in secondi)
+// timer per restard
 const RESTART_SECONDS = 5;
 
-// ---------------------
-// SUONI (cartella: asset/audio/)
-// ---------------------
+
+// suoni
 const suonoStart    = new Audio("asset/audio/audio_pacman_gamestart.mp3");
 const suonoPlaying  = new Audio("asset/audio/audio_pacman_playing.mp3");
 const suonoGameOver = new Audio("asset/audio/audio_pacman_gameover.mp3");
 
-// volume di base
+// volume 
 suonoStart.volume    = 0.8;
 suonoPlaying.volume  = 0.5;
 suonoGameOver.volume = 0.9;
@@ -33,10 +28,9 @@ suonoGameOver.volume = 0.9;
 // la musica di gioco gira in loop
 suonoPlaying.loop = true;
 
-// stato volume
 let volumeOn = true;
 
-// helper per gestire il volume ON/OFF
+// gestione ol on off
 function riproduciSuono(audio) {
   if (!volumeOn || !audio) return;
   audio.currentTime = 0;
@@ -59,20 +53,18 @@ function fermaTuttiISuoni() {
   suonoPlaying.pause();
 }
 
-// 👉 appena finisce il jingle di start, parte la musica di playing
+// musica starte e playing 
 suonoStart.addEventListener("ended", () => {
-  // avvia la musica solo se siamo ancora in gioco
+
   if (gameState === "playing" && volumeOn) {
     avviaMusicaGioco();
   }
 });
 
-// ================================
-// STATO DI GIOCO
-// ================================
+// gioco
 
 let gameState = "menu";
-let selectedAvatarIndex = null;      // diventa un numero solo dopo la scelta
+let selectedAvatarIndex = null;      
 
 let pacman = { x: 7, y: 7, direction: "right" };
 let score = 0;
@@ -82,27 +74,26 @@ let ghosts = [];
 let ghostIntervalId = null;
 let pacmanMoveInterval = null;
 
-// Riferimenti DOM
+
 let menuScreen, gameScreen;
 let boardEl;
 let scoreEl, finalScoreEl;
 let volumeBtn;
 
-// Pannello game over
+// pann. game over
 let schermoGameover, bottoneRigioca, bottoneMenu;
 let secondiRestartSpan;
 
-// Timer autorestart
+// autorestart timer
 let restartCountdownId = null;
 let restartSeconds = RESTART_SECONDS;
 
-// Elementi dinamici
+// elementi din.
 let pacmanEl = null;
 let ghostEls = [];
 
-// ================================
-// MAZE + PALLINI
-// ================================
+// maze + pallini
+
 
 function createMaze() {
   const m = Array(GRID_HEIGHT)
@@ -119,7 +110,7 @@ function createMaze() {
     m[GRID_HEIGHT - 1][j] = 1;
   }
 
-  // Ostacoli interni (labirinto semplice)
+  // ostacoli labirinto e baord 
   const obstacles = [
     [2, 2], [2, 3], [2, 4],
     [2, 10], [2, 11], [2, 12],
@@ -151,16 +142,14 @@ function initializeDots() {
   dots = newDots;
 }
 
-// Rimuove il singolo pallino mangiato
+// togliere pallino mangiato
 function removeDotElement(x, y) {
   const selector = `.dot[data-x="${x}"][data-y="${y}"]`;
   const el = boardEl.querySelector(selector);
   if (el) el.remove();
 }
 
-// ================================
-// SCHERMATE (MENU / GIOCO)
-// ================================
+// pannello menu gioco
 
 function showScreen(name) {
   if (!menuScreen || !gameScreen) return;
@@ -170,15 +159,13 @@ function showScreen(name) {
 
   gameState = name;
 
-  // sicurezza: fuori dal gioco niente musica di playing
+  // no musica playing fuori dal fioco
   if (name !== "playing") {
     fermaMusicaGioco();
   }
 }
 
-// ================================
-// RENDER BOARD + ENTITÀ
-// ================================
+// board
 
 function clearBoard() {
   if (!boardEl) return;
@@ -192,7 +179,7 @@ function renderBoard() {
 
   clearBoard();
 
-  // Muri
+  // muri labirinto
   for (let y = 0; y < GRID_HEIGHT; y++) {
     for (let x = 0; x < GRID_WIDTH; x++) {
       if (maze[y][x] === 1) {
@@ -207,7 +194,7 @@ function renderBoard() {
     }
   }
 
-  // Pallini
+  // pallini
   dots.forEach((dot) => {
     const dotEl = document.createElement("div");
     dotEl.className = "dot";
@@ -220,7 +207,7 @@ function renderBoard() {
     boardEl.appendChild(dotEl);
   });
 
-  // Fantasmi
+  // fantasmi mov.
   ghosts.forEach((ghost) => {
     const ghostEl = document.createElement("div");
     ghostEl.className = "ghost";
@@ -235,7 +222,7 @@ function renderBoard() {
     ghostEls.push(ghostEl);
   });
 
-  // Pac-Man (cerchio in CSS)
+  // cerchio pacmna
   pacmanEl = document.createElement("div");
   pacmanEl.className = "pacman";
   pacmanEl.style.width = CELL_SIZE - 6 + "px";
@@ -245,30 +232,28 @@ function renderBoard() {
   updateDynamicPositions();
 }
 
-// ================================
-// POSIZIONI (PAC-MAN + FANTASMI)
-// ================================
+// posizione e movimento personaggi 
 
 function updateDynamicPositions() {
   if (!pacmanEl) return;
 
-  // Posizione Pac-Man
+  
   pacmanEl.style.left = pacman.x * CELL_SIZE + 3 + "px";
   pacmanEl.style.top  = pacman.y * CELL_SIZE + 3 + "px";
 
-  // Colore e glow in base alla skin
+  // colore skin..
   const skin = AVATAR_COLORS[selectedAvatarIndex] || AVATAR_COLORS[0];
   pacmanEl.style.backgroundColor = skin.color;
   pacmanEl.style.boxShadow = `0 0 15px ${skin.glow}`;
 
-  // Rotazione
+  // rotazione e movimento strano
   let rotation = 0;
   if (pacman.direction === "left") rotation = 180;
   else if (pacman.direction === "up") rotation = -90;
   else if (pacman.direction === "down") rotation = 90;
   pacmanEl.style.transform = `rotate(${rotation}deg)`;
 
-  // Fantasmi
+  // fantasma
   ghosts.forEach((ghost, i) => {
     const el = ghostEls[i];
     if (!el) return;
@@ -277,9 +262,7 @@ function updateDynamicPositions() {
   });
 }
 
-// ================================
-// LOGICA DI GIOCO
-// ================================
+// sviluppo del gioco
 
 function updateHUD() {
   if (!scoreEl) return;
@@ -299,9 +282,7 @@ function checkCollision() {
   return ghosts.some((ghost) => ghost.x === pacman.x && ghost.y === pacman.y);
 }
 
-// --------------------
-// Timer autorestart
-// --------------------
+// timer autorestart
 
 function fermaTimerAutoRestart() {
   if (restartCountdownId) {
@@ -343,13 +324,13 @@ function gestisciCollisione() {
   }
   stopGhosts();
 
-  // 👉 ferma subito la musica di playing
+  // stop musica pla
   fermaMusicaGioco();
 
-  // 👉 avvia subito il suono di game over
+  //start supono game over
   riproduciSuono(suonoGameOver);
 
-  // Mostra pannello GAME OVER
+  // pann. game over
   if (finalScoreEl) {
     finalScoreEl.textContent = score;
   }
@@ -357,13 +338,13 @@ function gestisciCollisione() {
     schermoGameover.classList.remove("nascosto");
   }
 
-  // Avvia timer autorestart
+  // timer autorestart
   avviaTimerAutoRestart();
 
   gameState = "gameover";
 }
 
-// Movimento casuale dei fantasmi
+// movumento casuale dei fantasmi 
 function moveGhosts() {
   const directions = ["up", "down", "left", "right"];
 

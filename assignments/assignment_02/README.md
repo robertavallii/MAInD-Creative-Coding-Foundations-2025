@@ -16,8 +16,8 @@ Choose a “mini-game” to rebuild with HTML, CSS and JavaScript. The requireme
 ## Screenshots
 
 ![Game start window](./docs/img_pacman_01.png)
-![Game image](./docs/img_pacman_02.jpg)
-![Game over panel](./docs/img_pacman_03.jpg)
+![Game image](./docs/img_pacman_02.png)
+![Game over panel](./docs/img_pacman_03.png)
 
 
 ## Short project description 
@@ -150,7 +150,5 @@ Pacman is a simplified reproduction of the iconic arcade game. The player select
 
 
 
-### Event Listeners and Interaction Logic
+### Content and data sources (link)
 
-User interactions such as opening and closing the modal, uploading an image, picking a color, adding or editing pins, removing items from the board, and switching between list and card views are handled through **event listeners** directly bound to the corresponding DOM elements. Each listener updates the interface dynamically without reloading the page, ensuring a smooth and responsive user experience.  
-This modular approach keeps the codebase readable, maintainable, and easy to extend.
