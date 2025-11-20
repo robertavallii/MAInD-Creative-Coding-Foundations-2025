@@ -25,6 +25,41 @@ Choose a “mini-game” to rebuild with HTML, CSS and JavaScript. The requireme
 Pacman is a simplified reproduction of the iconic arcade game. The player selects a starting skin, moves through the maze using the arrow keys, collects points, and avoids ghosts. When a collision occurs, a game-over screen appears and an automatic restart is triggered.
 
 
+## Block diagram
+
+## Block diagram
+
+```mermaid
+flowchart TD
+    Start([Start]) --> Init[Initialize Game]
+    
+    Init --> Loop[Game Loop]
+    
+    Loop --> Input{Keyboard<br/>Input?}
+    Input -->|Arrow Key| ChangeDir[Change Direction]
+    Input -->|No| Move
+    
+    ChangeDir --> Move[Move Pacman]
+    
+    Move --> Wall{Wall?}
+    Wall -->|Yes| Loop
+    Wall -->|No| UpdatePos[Update Position]
+    
+    UpdatePos --> Dot{Dot Here?}
+    Dot -->|Yes| EatDot[Eat Dot<br/>score += 10]
+    Dot -->|No| Ghost
+    
+    EatDot --> Ghost{Ghost<br/>Collision?}
+    
+    Ghost -->|No| MoveGhosts[Move Ghosts]
+    MoveGhosts --> Loop
+    
+    Ghost -->|Yes| GameOver[Game Over]
+    GameOver --> Restart[Restart Game]
+    Restart --> Init
+```
+
+
 ## Function List
 
 ### riproduciSuono(audio)

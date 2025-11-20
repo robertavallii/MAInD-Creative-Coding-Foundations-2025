@@ -14,7 +14,6 @@ const AVATAR_COLORS = [
 // timer per restard
 const RESTART_SECONDS = 5;
 
-
 // suoni
 const suonoStart    = new Audio("asset/audio/audio_pacman_gamestart.mp3");
 const suonoPlaying  = new Audio("asset/audio/audio_pacman_playing.mp3");
