@@ -463,7 +463,7 @@ avatar del menu
   font-family: "PPNeueBit", system-ui, sans-serif;
 }
 
-/* piccola sistemazione responsive per schermi piccoli */
+/* responsive per mobile*/
 @media (max-width: 600px) {
   .avatar-list {
     flex-wrap: wrap;
