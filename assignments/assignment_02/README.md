@@ -26,129 +26,179 @@ Pacman is a simplified reproduction of the iconic arcade game. The player select
 
 
 ## Function List
-## Function List
 
 ### riproduciSuono(audio)
-- **Parameters:** `audio` (HTMLAudioElement)  
-- **Logic:** Plays the provided audio file from the beginning if the global `volumeOn` flag is enabled. If the volume is disabled, the function exits without playing the sound.  
-- **Returns:** `void`
+- **Parameters:** audio (HTMLAudioElement)  
+- **Logic:** Checks whether the global volumeOn flag is enabled. If the volume is active, it resets the audio playback position to the beginning and attempts to play the sound; otherwise it exits without executing any action.  
+- **Returns:** none
+
 
 ### avviaMusicaGioco()
 - **Parameters:** none  
-- **Logic:** Starts the looping background soundtrack used during gameplay, only if the volume is active.  
-- **Returns:** `void`
+- **Logic:** Starts the looping background music used during gameplay, resetting its playback position to the beginning, but only if the global volumeOn flag is enabled.  
+- **Returns:** none
+
 
 ### fermaMusicaGioco()
 - **Parameters:** none  
-- **Logic:** Pauses the background music without resetting its playback position.  
-- **Returns:** `void`
+- **Logic:** Pauses the background music without resetting its current playback position.  
+- **Returns:** none
+
+
 
 ### fermaTuttiISuoni()
 - **Parameters:** none  
-- **Logic:** Pauses all the main audio tracks (start, playing and game-over sounds), stopping any sound currently playing.  
-- **Returns:** `void`
+- **Logic:** Pauses all main audio tracks (start, playing and game-over sounds), stopping any audio currently playing.  
+- **Returns:** none
+
+
 
 ### createMaze()
 - **Parameters:** none  
-- **Logic:** Creates and returns a 2D array representing the maze layout. Borders and predefined internal obstacles are marked as walls (1), while all other cells are walkable (0).  
-- **Returns:** `number[][]` (maze matrix)
+- **Logic:** Creates a two-dimensional array representing the game grid. It sets the outer borders as walls and adds a predefined set of internal obstacles to form a simple maze.  
+- **Returns:** Array<Array<number>> — matrix representing the maze, where 1 indicates a wall and 0 a free cell
+
+
 
 ### initializeDots()
 - **Parameters:** none  
-- **Logic:** Iterates through the maze and collects the coordinates of all walkable cells in the inner area. Each valid cell is added to the global `dots` array.  
-- **Returns:** `void`
+- **Logic:** Iterates through the maze and adds a dot to every free cell inside the borders. It populates the global dots array with the coordinates of each dot.  
+- **Returns:** none
 
-### `removeDotElement(x, y)`
-- **Parameters:** `x` (number), `y` (number)  
-- **Logic:** Removes the DOM element representing a dot at the given coordinates, reflecting that Pac-Man has collected it.  
-- **Returns:** `void`
+
+
+### removeDotElement(x, y)
+- **Parameters:**  
+  - x (number): x-coordinate of the dot  
+  - y (number): y-coordinate of the dot  
+- **Logic:** Selects the DOM element associated with the dot at the given coordinates and removes it from the board if it exists.  
+- **Returns:** none
+
+
 
 ### showScreen(name)
-- **Parameters:** `name` (string: `"menu"` or `"playing"`)  
-- **Logic:** Toggles visibility between the menu and game screens and updates the global `gameState`. It also ensures that the background music stops when the game screen is not active.  
-- **Returns:** `void`
+- **Parameters:**  name (string): name of the screen to show, either menu or playing  
+- **Logic:** Toggles the visibility of the menu screen and game screen based on the provided name. It also updates the global gameState and ensures that background music is stopped when the screen is not the gameplay view.  
+- **Returns:** none
+
+
 
 ### clearBoard()
 - **Parameters:** none  
-- **Logic:** Clears the board container by removing all its child elements and resets the references for Pac-Man and ghost DOM nodes.  
-- **Returns:** `void`
+- **Logic:** Clears the game board by removing all child elements and resets the references to the Pac-Man and ghost DOM elements.  
+- **Returns:** none
+
+
 
 ### renderBoard()
 - **Parameters:** none  
-- **Logic:** Renders all visual elements of the game (maze walls, dots, ghosts, Pac-Man). After creating the elements, it calls `updateDynamicPositions()` to place them on screen.  
-- **Returns:** `void`
+- **Logic:** Rebuilds the entire board: draws maze walls, places dots, creates the DOM elements for each ghost, and creates Pac-Man. It then calls updateDynamicPositions to synchronize visual positions with the current game data.  
+- **Returns:** none
 
-### `updateDynamicPositions()`
+
+
+### updateDynamicPositions()
 - **Parameters:** none  
-- **Logic:** Updates the screen position, rotation and visual style of Pac-Man and the ghosts based on their current coordinates, direction and selected skin.  
-- **Returns:** `void`
+- **Logic:** Updates the on-screen position of Pac-Man and all ghosts according to their current coordinates. It also applies the correct color, glow and rotation to Pac-Man based on the selected skin and current movement direction.  
+- **Returns:** none
+
+
 
 ### updateHUD()
 - **Parameters:** none  
-- **Logic:** Updates the score displayed in the HUD by setting it to the current `score` value.  
-- **Returns:** `void`
+- **Logic:** Updates the score displayed in the HUD by setting the text content of the corresponding DOM element.  
+- **Returns:** none
+
+
 
 ### resetGhosts()
 - **Parameters:** none  
-- **Logic:** Resets the ghosts array using predefined starting positions and image paths for each ghost.  
-- **Returns:** `void`
+- **Logic:** Resets the four ghosts to their initial positions and assigns the correct sprite image to each of them.  
+- **Returns:** none
+
+
 
 ### checkCollision()
 - **Parameters:** none  
-- **Logic:** Checks whether Pac-Man occupies the same grid cell as any ghost.  
-- **Returns:** `boolean` (true if a collision is detected)
+- **Logic:** Checks whether Pac-Man occupies the same grid cell as at least one ghost.  
+- **Returns:** boolean — true if a collision is detected, otherwise false
+
+
 
 ### fermaTimerAutoRestart()
 - **Parameters:** none  
-- **Logic:** Stops the automatic restart countdown by clearing the active interval stored in `restartCountdownId` and resetting the reference.  
-- **Returns:** `void`
+- **Logic:** Stops the automatic restart countdown by clearing the timer interval if active and resetting its reference to null.  
+- **Returns:** none
+
+
 
 ### avviaTimerAutoRestart()
 - **Parameters:** none  
-- **Logic:** Starts the countdown shown in the game-over panel. It updates the timer every second and restarts the game automatically when the countdown reaches zero.  
-- **Returns:** `void`
+- **Logic:** Resets the countdown value to the constant RESTART_SECONDS, updates the timer shown on screen and starts an interval that decreases the counter every second. When it reaches zero, it stops the timer and starts a new match.  
+- **Returns:** none
+
 
 ### gestisciCollisione()
 - **Parameters:** none  
-- **Logic:** Handles a collision between Pac-Man and a ghost. It stops all movement, stops the background music, plays the game-over sound, updates the final score, shows the game-over overlay, starts the automatic restart timer and sets the `gameState` to `"gameover"`.  
-- **Returns:** `void`
+- **Logic:** Handles the entire game-over sequence after a collision. It stops Pac-Man and the ghosts, interrupts the background music, plays the game-over sound, updates the final score, displays the game-over panel and starts the auto-restart timer.  
+- **Returns:** none
+
 
 ### moveGhosts()
 - **Parameters:** none  
-- **Logic:** For each ghost, determines valid adjacent directions, selects one at random and updates its position. Then refreshes their on-screen positions and checks for collisions with Pac-Man.  
-- **Returns:** `void`
+- **Logic:** For each ghost, calculates all valid directions that do not lead into a wall. It selects one direction at random, updates the ghost’s coordinates, then updates the visual positions and checks whether a collision occurred.  
+- **Returns:** none
+
 
 ### startGhosts()
 - **Parameters:** none  
-- **Logic:** Starts the ghosts’ movement loop by calling `moveGhosts()` at fixed intervals. Clears any previously active interval before starting a new one.  
-- **Returns:** `void`
+- **Logic:** Starts the automatic movement of the ghosts by setting an interval that calls moveGhosts at regular intervals.  
+- **Returns:** none
+
+
 
 ### stopGhosts()
 - **Parameters:** none  
-- **Logic:** Stops the ghosts’ movement loop by clearing the interval and resetting the reference.  
-- **Returns:** `void`
+- **Logic:** Stops the automatic ghost movement by clearing the movement interval.  
+- **Returns:** none
+
+
 
 ### tryMovePacman()
 - **Parameters:** none  
-- **Logic:** Computes the next cell based on Pac-Man’s direction and checks if it is walkable. If valid, updates Pac-Man’s position, handles dot collection, updates the score and checks for collisions. If all dots are eaten, it resets the dots and board for a new level.  
-- **Returns:** `void`
+- **Logic:** Calculates Pac-Man’s next cell based on the current direction. If the next cell is not a wall, it updates Pac-Man’s coordinates. Then it checks whether a dot is present on the new cell, removes it, increases the score and updates the HUD. If all dots have been eaten, it resets the dots and board. Finally, it updates the visual positions and checks for collisions.  
+- **Returns:** none
+
+
 
 ### startPacmanAutoMove()
 - **Parameters:** none  
-- **Logic:** Starts the automatic movement loop for Pac-Man. If the loop is already running, the function does nothing.  
-- **Returns:** `void`
+- **Logic:** Starts the automatic movement loop for Pac-Man if it is not already active. The interval repeatedly calls tryMovePacman as long as the game is in the playing state.  
+- **Returns:** none
+
+
 
 ### handleKeyDown(e)
-- **Parameters:** `e` (KeyboardEvent)  
-- **Logic:** Handles keyboard input during gameplay. Updates Pac-Man’s direction based on arrow keys and, if needed, starts the automatic movement loop and triggers an initial step.  
-- **Returns:** `void`
+- **Parameters:**  
+  - e (KeyboardEvent): keyboard event triggered when a key is pressed  
+- **Logic:** Detects arrow key presses while the game is running. Updates Pac-Man’s direction accordingly and triggers immediate movement if the automatic motion was not already active.  
+- **Returns:** none
+
+
 
 ### startGame(avatarIndex)
-- **Parameters:** `avatarIndex` (number)  
-- **Logic:** Initializes a new game session. It stores the selected skin, hides the game-over panel, resets the restart timer, resets Pac-Man, dots, ghosts and score, updates the HUD, sets the board size, renders the board, shows the game screen, starts the ghosts’ loop and plays the start sound.  
-- **Returns:** `void`
+- **Parameters:**  
+  - avatarIndex (number): index of the selected skin  
+- **Logic:** Initializes a new match: resets Pac-Man’s state, score, maze, dots and ghosts; updates the HUD; sets the board size; renders the board; switches to the game view; starts the ghost movement and plays the start sound.  
+- **Returns:** none
 
 
 
-### Content and data sources (link)
+## Content and data sources (link)
+
+- **Fonts**
+The bitmap fonts used in this project come from [Pangram Pangram](https://pangrampangram.com/products/bitmap-fonts) (trial version).  
+
+- **Audio**
+All sound effects used in the game were downloaded from [Pixabay](https://pixabay.com/it/sound-effects/) (free license).
 
