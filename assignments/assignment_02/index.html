@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Pac-Man Neon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
@@ -15,6 +16,7 @@
 
           <h1 class="title-neon">PACMAN</h1>
           <h2 class="subtitle-neon">Select skin colour</h2>
+
           <div id="avatar-list" class="avatar-list">
             <button class="avatar-button avatar-yellow" data-avatar-index="0">
               <div class="avatar-inner">
@@ -22,16 +24,18 @@
                 <span class="avatar-label">Yellow</span>
               </div>
             </button>
+
             <button class="avatar-button avatar-pink" data-avatar-index="1">
               <div class="avatar-inner">
                 <div class="avatar-circle"></div>
-            <span class="avatar-label">Pink</span>
-          </div>
-        </button>
-      <button class="avatar-button avatar-cyan" data-avatar-index="2">
-          <div class="avatar-inner">
-            <div class="avatar-circle"></div>
-      <span class="avatar-label">Light blue </span>
+                <span class="avatar-label">Pink</span>
+              </div>
+            </button>
+
+            <button class="avatar-button avatar-cyan" data-avatar-index="2">
+              <div class="avatar-inner">
+                <div class="avatar-circle"></div>
+                <span class="avatar-label">Light blue</span>
               </div>
             </button>
 
@@ -66,19 +70,19 @@
             SCORE: <span id="score-value">0</span>
           </div>
 
-          <div id="skin-selector" class="skin-selector">
-            <p class="skin-label">Select skin colour</p>
+      <div id="skin-selector" class="skin-selector">
+        <p class="skin-label">Select skin colour</p>
+      
+        <div id="skin-options" class="skin-options">
+          <button class="skin-option skin-option-yellow" aria-label="Giallo Classico"></button>
+          <button class="skin-option skin-option-pink"   aria-label="Neon Rosa"></button>
+          <button class="skin-option skin-option-cyan"   aria-label="Cyber Blu"></button>
+          <button class="skin-option skin-option-green"  aria-label="Verde Acido"></button>
+          <button class="skin-option skin-option-purple" aria-label="Viola Elettrico"></button>
+        </div>
+      </div>
 
-            <div id="skin-options" class="skin-options">
-              <button class="skin-option skin-option-yellow" data-avatar-index="0" aria-label="Giallo Classico"></button>
-              <button class="skin-option skin-option-pink"   data-avatar-index="1" aria-label="Neon Rosa"></button>
-              <button class="skin-option skin-option-cyan"   data-avatar-index="2" aria-label="Cyber Blu"></button>
-              <button class="skin-option skin-option-green"  data-avatar-index="3" aria-label="Verde Acido"></button>
-              <button class="skin-option skin-option-purple" data-avatar-index="4" aria-label="Viola Elettrico"></button>
-            </div>
-          </div>
-
-          <button id="volume-btn" class="volume-btn">VOLUME: ON</button>
+          <button id="volume-btn" class="volume-btn">VOLUME:   ON  </button>
         </div>
 
         <!-- board gioco -->
@@ -97,23 +101,22 @@
           <h1 class="titolo-gameover">GAME OVER</h1>
 
           <p class="testo-punteggio">
-            PUNTEGGIO: <span id="punteggio-finale">0</span>
+            score: <span id="punteggio-finale">0</span>
           </p>
 
           <p class="testo-timer">
-            Riavvio automatico tra <span id="secondi-restart">5</span> secondi...
+            Automatic restart between <span id="secondi-restart">5</span> seconds...
           </p>
 
           <div class="bottoni-gameover">
-            <button id="bottone-rigioca" class="btn-primario">RIGIOCA</button>
-            <button id="bottone-menu" class="btn-secondario">MENU PRINCIPALE</button>
+            <button id="bottone-rigioca" class="btn-primario">Play again</button>
+            <button id="bottone-menu" class="btn-secondario">Back to menu</button>
           </div>
         </div>
       </section>
 
     </div>
-  
-    <script src="script.js"></script>
 
+    <script src="script.js"></script>
   </body>
 </html>

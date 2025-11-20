@@ -414,7 +414,6 @@ function stopGhosts() {
 
 // movimento pacman
 
-
 function tryMovePacman() {
   let newX = pacman.x;
   let newY = pacman.y;
@@ -526,10 +525,10 @@ document.addEventListener("DOMContentLoaded", function () {
   scoreEl = document.getElementById("score-value");
 
   // pann. game over
-  schermoGameover   = document.getElementById("schermo-gameover");
-  finalScoreEl      = document.getElementById("punteggio-finale");
-  bottoneRigioca    = document.getElementById("bottone-rigioca");
-  bottoneMenu       = document.getElementById("bottone-menu");
+  schermoGameover    = document.getElementById("schermo-gameover");
+  finalScoreEl       = document.getElementById("punteggio-finale");
+  bottoneRigioca     = document.getElementById("bottone-rigioca");
+  bottoneMenu        = document.getElementById("bottone-menu");
   secondiRestartSpan = document.getElementById("secondi-restart");
 
   // pulsante volume
@@ -548,32 +547,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // selezione della skin durante il gioco e cambio 
-  const skinOptionEls = document.querySelectorAll(".skin-option");
-  skinOptionEls.forEach((btn) => {
-    const index = parseInt(btn.dataset.avatarIndex, 10);
-    if (!Number.isNaN(index)) {
-      btn.addEventListener("click", () => {
-        selectedAvatarIndex = index;
-        updateDynamicPositions();
-      });
-    }
+// selezione della skin durante il gioco e cambio 
+const skinOptionEls = document.querySelectorAll(".skin-option");
+skinOptionEls.forEach((btn, index) => {
+  btn.addEventListener("click", () => {
+    selectedAvatarIndex = index;
+
+    skinOptionEls.forEach((s) => s.classList.remove("active"));
+    btn.classList.add("active");
+
+    updateDynamicPositions();
   });
+});
+
 
   // bott. avatar menu iniz.
-  const avatarButtons = document.querySelectorAll(".avatar-button");
-  avatarButtons.forEach((btn) => {
-    const index = parseInt(btn.dataset.avatarIndex, 10);
-    if (!Number.isNaN(index)) {
-      btn.addEventListener("click", () => {
-        selectedAvatarIndex = index;
+const avatarButtons = document.querySelectorAll(".avatar-button");
+avatarButtons.forEach((btn, index) => {
+  btn.addEventListener("click", () => {
+    selectedAvatarIndex = index;
 
-        // selezione bott avatar  nel +  css
-        avatarButtons.forEach(b => b.classList.remove("avatar-button--selected"));
-        btn.classList.add("avatar-button--selected");
-      });
-    }
+    // selezione bott avatar  nel +  css
+    avatarButtons.forEach((b) => b.classList.remove("avatar-button--selected"));
+    btn.classList.add("avatar-button--selected");
   });
+});
 
   // bott. start GAME
   const startBtn = document.getElementById("start-game-btn");
@@ -615,15 +613,4 @@ document.addEventListener("DOMContentLoaded", function () {
   maze = createMaze();
   initializeDots();
   showScreen("menu");
-});
-
-
-
-const skinOptions = document.querySelectorAll(".skin-option");
-
-skinOptions.forEach((el) => {
-  el.addEventListener("click", () => {
-    skinOptions.forEach(s => s.classList.remove("active"));
-    el.classList.add("active");
-  });
 });
