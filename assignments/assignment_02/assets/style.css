@@ -1,14 +1,13 @@
-/* inserimento font */
 @font-face {
   font-family: "PPmondwest";
-  src: url("asset/font/PPMondwest-Regular.otf") format("opentype");
+  src: url("font/PPMondwest-Regular.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PPNeueBit";
-  src: url("asset/font/PPNeueBit-Bold.otf") format("opentype");
+  src: url("font/PPNeueBit-Bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
 }

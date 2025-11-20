@@ -1,4 +1,4 @@
-# Assignment 01
+# Pacman
 
 ## Brief
 
@@ -24,8 +24,6 @@ Choose a “mini-game” to rebuild with HTML, CSS and JavaScript. The requireme
 
 Pacman is a simplified reproduction of the iconic arcade game. The player selects a starting skin, moves through the maze using the arrow keys, collects points, and avoids ghosts. When a collision occurs, a game-over screen appears and an automatic restart is triggered.
 
-
-## Block diagram
 
 ## Block diagram
 

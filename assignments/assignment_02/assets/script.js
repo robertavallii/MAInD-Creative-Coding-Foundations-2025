@@ -15,9 +15,9 @@ const AVATAR_COLORS = [
 const RESTART_SECONDS = 5;
 
 // suoni
-const suonoStart    = new Audio("asset/audio/audio_pacman_gamestart.mp3");
-const suonoPlaying  = new Audio("asset/audio/audio_pacman_playing.mp3");
-const suonoGameOver = new Audio("asset/audio/audio_pacman_gameover.mp3");
+const suonoStart    = new Audio("assets/audio/audio_pacman_gamestart.mp3");
+const suonoPlaying  = new Audio("assets/audio/audio_pacman_playing.mp3");
+const suonoGameOver = new Audio("assets/audio/audio_pacman_gameover.mp3");
 
 // volume 
 suonoStart.volume    = 0.8;
@@ -270,10 +270,10 @@ function updateHUD() {
 
 function resetGhosts() {
   ghosts = [
-    { x: 3,  y: 3,  img: "asset/fantasma_rosso.png" },
-    { x: 11, y: 3,  img: "asset/fantasma_rosa.png" },
-    { x: 3,  y: 11, img: "asset/fantasma_azzurro.png" },
-    { x: 11, y: 11, img: "asset/fantasma_arancione.png" }
+    { x: 3,  y: 3,  img: "assets/image/fantasma_rosso.png" },
+    { x: 11, y: 3,  img: "assets/image/fantasma_rosa.png" },
+    { x: 3,  y: 11, img: "assets/image/fantasma_azzurro.png" },
+    { x: 11, y: 11, img: "assets/image/fantasma_arancione.png" }
   ];
 }
 
