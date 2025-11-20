@@ -525,10 +525,10 @@ document.addEventListener("DOMContentLoaded", function () {
   scoreEl = document.getElementById("score-value");
 
   // pann. game over
-  schermoGameover    = document.getElementById("schermo-gameover");
-  finalScoreEl       = document.getElementById("punteggio-finale");
-  bottoneRigioca     = document.getElementById("bottone-rigioca");
-  bottoneMenu        = document.getElementById("bottone-menu");
+  schermoGameover = document.getElementById("schermo-gameover");
+  finalScoreEl = document.getElementById("punteggio-finale");
+  bottoneRigioca = document.getElementById("bottone-rigioca");
+  bottoneMenu = document.getElementById("bottone-menu");
   secondiRestartSpan = document.getElementById("secondi-restart");
 
   // pulsante volume
