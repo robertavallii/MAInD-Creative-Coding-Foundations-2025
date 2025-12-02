@@ -12,7 +12,7 @@ const AVATAR_COLORS = [
 ];
 
 // Configurazione API esterne (Giphy e meteo Open-Meteo)
-const GIPHY_API_KEY = "gt7xOnrlUGvrilRC2DTG8FlB5CzzuOVH";
+const GIPHY_API_KEY = "";
 const GIPHY_TAG_LOSE = "loser fail game over";
 const GIPHY_TAG_WIN  = "victory celebration win";
 const RESTART_SECONDS = 5;
