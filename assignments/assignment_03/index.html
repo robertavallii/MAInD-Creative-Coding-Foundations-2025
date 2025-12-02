@@ -8,7 +8,10 @@
   <!-- font -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+    rel="stylesheet"
+  />
 
   <link rel="stylesheet" href="assets/style.css" />
 </head>
@@ -16,13 +19,12 @@
 <body>
   <div id="app">
 
-    <!-- pann. iniziale -->
+    <!-- pannello iniziale -->
     <section id="menu-screen" class="screen screen--center">
       <div class="menu-box">
-
         <h1 class="title">PACMAN</h1>
 
-        <!-- selez. meteo -->
+        <!-- selezione meteo -->
         <div class="weather-box">
           <h2 class="subtitle-neon">Select your city</h2>
 
@@ -33,25 +35,31 @@
               placeholder="Enter city (e.g. Milan)"
               class="weather-input"
             />
-            <button id="weather-btn" class="weather-btn">LOAD WEATHER</button>
+            <button id="weather-btn" class="weather-btn">
+              LOAD WEATHER
+            </button>
           </div>
 
-          <p id="weather-status" class="weather-status">Weather: not loaded</p>
+          <p id="weather-status" class="weather-status">
+            Weather: not loaded
+          </p>
         </div>
 
         <button id="start-game-btn">START GAME</button>
-
       </div>
     </section>
 
-    <!-- pann. gioco -->
+    <!-- pannello gioco -->
     <section id="game-screen" class="screen screen--center screen--hidden">
+      <button id="back-menu-btn" class="back-btn">
+        <span class="back-arrow">◀</span>
+        <span>Select location</span>
+      </button>
 
       <h1 class="title-neon title-neon--game">PACMAN</h1>
 
-      <!-- hud (score, colore skin, volume) -->
+      <!-- HUD (score, skin, volume) -->
       <div class="hud">
-
         <div class="hud-item hud-score">
           SCORE: <span id="score-value">0</span>
         </div>
@@ -70,10 +78,10 @@
         <button id="volume-btn" class="volume-btn">VOLUME: ON</button>
       </div>
 
-      <!-- board gioco -->
+      <!-- board di gioco -->
       <div id="game-board" class="board"></div>
 
-      <!-- controlli tasti mob. -->
+      <!-- controlli touch (mobile) -->
       <div class="touch-controls">
         <button class="touch-btn" data-dir="up">▲</button>
         <div class="touch-controls-row">
@@ -83,15 +91,15 @@
         </div>
       </div>
 
-      <!-- instruzioni -->
-      <div class="instructions">Use the arrow keys to move around</div>
-
+      <!-- istruzioni -->
+      <div class="instructions">
+        Use the arrow keys to move around
+      </div>
     </section>
 
-    <!-- pann. gameover e win -->
+    <!-- pannello game over / win -->
     <section id="schermo-gameover" class="schermo centrato nascosto">
       <div class="pannello-gameover">
-
         <h1 id="titolo-gameover" class="titolo-gameover">GAME OVER</h1>
 
         <p class="testo-punteggio">
@@ -100,7 +108,11 @@
 
         <div class="reaction-panel">
           <div class="reaction-image-wrapper">
-            <img id="reaction-image" class="reaction-image" alt="GIF reaction" />
+            <img
+              id="reaction-image"
+              class="reaction-image"
+              alt="GIF reaction"
+            />
           </div>
         </div>
 
@@ -109,10 +121,13 @@
         </p>
 
         <div class="bottoni-gameover">
-          <button id="bottone-rigioca" class="btn-primario">Play again</button>
-          <button id="bottone-menu"  class="btn-secondario">Back to menu</button>
+          <button id="bottone-rigioca" class="btn-primario">
+            Play again
+          </button>
+          <button id="bottone-menu" class="btn-secondario">
+            Back to menu
+          </button>
         </div>
-
       </div>
     </section>
 

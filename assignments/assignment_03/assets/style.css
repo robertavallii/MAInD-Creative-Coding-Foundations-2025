@@ -1,21 +1,19 @@
 /* ==========================
-   RESET / BASE
+   RESET E BASE
 ========================== */
 * {
   box-sizing: border-box;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
   height: 100%;
 }
 
 /* ==========================
-   THEME VARIABLES
+   TIPOGRAFIA E VARIABILI TEMA
 ========================== */
 body {
   background: var(--color-bg);
@@ -28,12 +26,22 @@ body {
 }
 
 body,
+button,
+input,
+textarea,
+select {
+  font-family: "Press Start 2P", system-ui, monospace;
+}
+
+/* Tema di default (e fallback) */
+body,
 body.meteo-default {
   --color-bg: #ffffff;
   --color-text: #000000;
   --color-accent: #000000;
 }
 
+/* Temi collegati al meteo */
 body.meteo-sereno {
   --color-bg: #6cb7f5;
   --color-text: #0f1a2b;
@@ -64,14 +72,6 @@ body.meteo-neve {
   --color-accent: #2f7de1;
 }
 
-body,
-button,
-input,
-textarea,
-select {
-  font-family: "Press Start 2P", system-ui, monospace;
-}
-
 #app {
   position: relative;
   min-height: 100vh;
@@ -96,7 +96,7 @@ select {
 }
 
 /* ==========================
-   TITOLI
+   TITOLI E TESTI
 ========================== */
 .title,
 .title-neon {
@@ -121,7 +121,7 @@ select {
   text-align: center;
 }
 
-/* GAME OVER title + testo */
+/* Testi schermata game over */
 .titolo-gameover {
   font-size: 32px;
   margin-bottom: 8px;
@@ -146,7 +146,7 @@ select {
 }
 
 /* ==========================
-   PANNELLO MENU
+   PANNELLO MENU INIZIALE
 ========================== */
 .menu-box {
   text-align: center;
@@ -236,7 +236,7 @@ select {
 }
 
 /* ==========================
-   SKIN SELECTOR (IN-GAME)
+   SELETTORE SKIN PAC-MAN
 ========================== */
 .skin-selector {
   text-align: center;
@@ -286,6 +286,42 @@ select {
 
 .skin-option-purple {
   background-color: #bf00ff;
+}
+
+/* ==========================
+   BOTTONE NAVIGAZIONE (BACK)
+========================== */
+.back-btn {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 3000;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--color-bg);
+  color: var(--color-accent);
+  border: 3px solid var(--color-accent);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+#game-screen:not(.screen--hidden) .back-btn {
+  display: inline-flex;
+}
+
+.back-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.back-arrow {
+  font-size: 10px;
+  line-height: 1;
 }
 
 /* ==========================
@@ -352,7 +388,7 @@ select {
 }
 
 /* ==========================
-   PULSANTI GENERICI (GAME OVER)
+   BOTTONI GENERICI (GAME OVER)
 ========================== */
 .btn-primario,
 .btn-secondario,
@@ -421,7 +457,7 @@ select {
 }
 
 /* ==========================
-   REACTION PANEL (GIF)
+   PANNELLO GIF (REACTION)
 ========================== */
 .reaction-panel {
   margin-top: 20px;
@@ -452,7 +488,7 @@ select {
 }
 
 /* ==========================
-   METEO UI
+   UI METEO (INPUT + BUTTON)
 ========================== */
 .weather-box {
   width: 100%;
@@ -508,7 +544,7 @@ select {
 }
 
 /* ==========================
-   PIXEL LOOK
+   LOOK "PIXEL" GENERALE
 ========================== */
 .menu-box,
 #start-game-btn,
@@ -552,44 +588,114 @@ select {
   border-radius: 0;
 }
 
-@media (max-width: 768px) {
-  .touch-controls {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 /* ==========================
-   RESPONSIVE
+   RESPONSIVE MOBILE
 ========================== */
-@media (max-width: 900px) {
-  .menu-box {
-    padding: 24px 18px 20px;
+@media (max-width: 768px) {
+  html,
+  body {
+    height: auto;
+    overflow-y: auto;
   }
-}
 
-@media (max-width: 600px) {
+  .menu-box {
+    width: calc(100% - 32px);
+    max-width: 520px;
+    padding: 20px 16px 18px;
+    gap: 16px;
+  }
+
   .title,
   .title-neon {
     font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle-neon {
+    font-size: 8px;
+    letter-spacing: 0.18em;
+  }
+
+  .weather-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .weather-input,
+  .weather-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  #game-screen {  
+    padding-top: 60px;
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .hud {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .volume-btn {
+    padding: 6px 10px;
+    font-size: 8px;
   }
 
   .board {
-    transform: scale(0.85);
+    transform: scale(0.8);
     transform-origin: top center;
   }
 
+  .back-btn {
+    top: 12px;
+    left: 12px;
+    padding: 4px 8px;
+    font-size: 8px;
+    letter-spacing: 0.14em;
+  }
+
+  .touch-controls {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+
+  .touch-btn {
+    width: 36px;
+    height: 36px;
+    border-width: 3px;
+    font-size: 12px;
+  }
+
   .pannello-gameover {
-    padding: 22px 16px 18px;
+    width: 94%;
+    padding: 24px 16px 20px;
+    gap: 16px;
+  }
+
+  .titolo-gameover {
+    font-size: 24px;
+  }
+
+  .testo-punteggio {
+    font-size: 14px;
+  }
+
+  .testo-timer {
+    font-size: 10px;
+    letter-spacing: 0.14em;
   }
 
   .reaction-image-wrapper {
     width: 180px;
   }
 
-  .hud {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  .instructions {
+    display: none;
   }
 }

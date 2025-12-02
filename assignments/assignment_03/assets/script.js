@@ -1,10 +1,8 @@
+// Configurazione base della griglia e delle skin di Pac-Man
 const CELL_SIZE = 30;
 const GRID_WIDTH = 15;
 const GRID_HEIGHT = 15;
 
-// ===========================
-// SKIN PACMAN
-// ===========================
 const AVATAR_COLORS = [
   { name: "Giallo Classico", color: "#FFD700", glow: "#FFA500" },
   { name: "Neon Rosa",       color: "#FF1493", glow: "#FF69B4" },
@@ -13,31 +11,18 @@ const AVATAR_COLORS = [
   { name: "Viola Elettrico", color: "#8B00FF", glow: "#8B00FF" }
 ];
 
-// ===========================
-// GIPHY API CONFIG
-// ===========================
-
-// 👉 METTI QUI LA TUA API KEY DI GIPHY
-const GIPHY_API_KEY = "";
-
+// Configurazione API esterne (Giphy e meteo Open-Meteo)
+const GIPHY_API_KEY = "gt7xOnrlUGvrilRC2DTG8FlB5CzzuOVH";
 const GIPHY_TAG_LOSE = "loser fail game over";
 const GIPHY_TAG_WIN  = "victory celebration win";
-
-// timer per restart
 const RESTART_SECONDS = 5;
 
-// ===========================
-// METEO API (Open-Meteo)
-// ===========================
 const DEFAULT_LAT = 46.0;
 const DEFAULT_LON = 8.9;
+const METEO_FORECAST_BASE   = "https://api.open-meteo.com/v1/forecast";
+const METEO_GEOCODING_BASE  = "https://geocoding-api.open-meteo.com/v1/search";
 
-const METEO_FORECAST_BASE = "https://api.open-meteo.com/v1/forecast";
-const METEO_GEOCODING_BASE = "https://geocoding-api.open-meteo.com/v1/search";
-
-// ===========================
-// SUONI
-// ===========================
+// Setup dei suoni di gioco
 const suonoStart    = new Audio("assets/audio/audio_pacman_gamestart.mp3");
 const suonoPlaying  = new Audio("assets/audio/audio_pacman_playing.mp3");
 const suonoGameOver = new Audio("assets/audio/audio_pacman_gameover.mp3");
@@ -49,11 +34,8 @@ suonoGameOver.volume = 0.9;
 suonoPlaying.loop = true;
 let volumeOn = true;
 
-// ===========================
-// STATO DI GIOCO
-// ===========================
+// Stato di gioco e variabili principali
 let gameState = "menu";
-// skin di default (giallo)
 let selectedAvatarIndex = 0;
 
 let pacman = { x: 7, y: 7, direction: "right" };
@@ -64,36 +46,29 @@ let ghosts = [];
 let ghostIntervalId = null;
 let pacmanMoveInterval = null;
 
-// per evitare di ripetere la stessa GIF
 let lastLoseGifUrl = null;
 let lastWinGifUrl  = null;
 
-// ELEMENTI DOM GLOBALI
+// Riferimenti al DOM
 let menuScreen, gameScreen;
 let boardEl;
 let scoreEl, finalScoreEl;
-let volumeBtn;
+let volumeBtn, backMenuBtn;
 
-// pannello game over / win
 let schermoGameover, bottoneRigioca, bottoneMenu;
 let secondiRestartSpan;
 let reactionImageEl;
 let titoloGameoverEl;
 
-// meteo DOM
 let cityInputEl, weatherBtnEl, weatherStatusEl;
 
-// autorestart timer
 let restartCountdownId = null;
 let restartSeconds = RESTART_SECONDS;
 
-// elementi dinamici
 let pacmanEl = null;
 let ghostEls = [];
 
-// ===========================
-// AUDIO
-// ===========================
+// Funzioni di gestione audio
 function riproduciSuono(audio) {
   if (!volumeOn || !audio) return;
   audio.currentTime = 0;
@@ -122,15 +97,12 @@ suonoStart.addEventListener("ended", () => {
   }
 });
 
-// ===========================
-// MAZE + PALLINI
-// ===========================
+// Creazione del labirinto e posizionamento dei pallini
 function createMaze() {
   const m = Array(GRID_HEIGHT)
     .fill(null)
     .map(() => Array(GRID_WIDTH).fill(0));
 
-  // bordi
   for (let i = 0; i < GRID_HEIGHT; i++) {
     m[i][0] = 1;
     m[i][GRID_WIDTH - 1] = 1;
@@ -140,7 +112,6 @@ function createMaze() {
     m[GRID_HEIGHT - 1][j] = 1;
   }
 
-  // ostacoli labirinto
   const obstacles = [
     [2, 2], [2, 3], [2, 4],
     [2, 10], [2, 11], [2, 12],
@@ -178,9 +149,7 @@ function removeDotElement(x, y) {
   if (el) el.remove();
 }
 
-// ===========================
-// SCHERMATE MENU / GAME
-// ===========================
+// Gestione delle schermate (menu / gioco)
 function showScreen(name) {
   if (!menuScreen || !gameScreen) return;
 
@@ -194,9 +163,7 @@ function showScreen(name) {
   }
 }
 
-// ===========================
-// BOARD
-// ===========================
+// Rendering della board di gioco
 function clearBoard() {
   if (!boardEl) return;
   boardEl.innerHTML = "";
@@ -209,14 +176,13 @@ function renderBoard() {
 
   clearBoard();
 
-  // muri labirinto
   for (let y = 0; y < GRID_HEIGHT; y++) {
     for (let x = 0; x < GRID_WIDTH; x++) {
       if (maze[y][x] === 1) {
         const wall = document.createElement("div");
         wall.className = "cell cell-wall";
-        wall.style.left = x * CELL_SIZE + "px";
-        wall.style.top  = y * CELL_SIZE + "px";
+        wall.style.left   = x * CELL_SIZE + "px";
+        wall.style.top    = y * CELL_SIZE + "px";
         wall.style.width  = CELL_SIZE + "px";
         wall.style.height = CELL_SIZE + "px";
         boardEl.appendChild(wall);
@@ -224,7 +190,6 @@ function renderBoard() {
     }
   }
 
-  // pallini
   dots.forEach((dot) => {
     const dotEl = document.createElement("div");
     dotEl.className = "dot";
@@ -232,12 +197,11 @@ function renderBoard() {
     dotEl.dataset.y = dot.y;
     dotEl.style.width  = "6px";
     dotEl.style.height = "6px";
-    dotEl.style.left = dot.x * CELL_SIZE + CELL_SIZE / 2 - 3 + "px";
-    dotEl.style.top  = dot.y * CELL_SIZE + CELL_SIZE / 2 - 3 + "px";
+    dotEl.style.left   = dot.x * CELL_SIZE + CELL_SIZE / 2 - 3 + "px";
+    dotEl.style.top    = dot.y * CELL_SIZE + CELL_SIZE / 2 - 3 + "px";
     boardEl.appendChild(dotEl);
   });
 
-  // fantasmi
   ghosts.forEach((ghost) => {
     const ghostEl = document.createElement("div");
     ghostEl.className = "ghost";
@@ -252,7 +216,6 @@ function renderBoard() {
     ghostEls.push(ghostEl);
   });
 
-  // pacman
   pacmanEl = document.createElement("div");
   pacmanEl.className = "pacman";
   pacmanEl.style.width  = CELL_SIZE - 6 + "px";
@@ -262,9 +225,7 @@ function renderBoard() {
   updateDynamicPositions();
 }
 
-// ===========================
-// POSIZIONI ELEMENTI
-// ===========================
+// Aggiornamento delle posizioni di Pac-Man e dei fantasmi
 function updateDynamicPositions() {
   if (!pacmanEl) return;
 
@@ -275,9 +236,10 @@ function updateDynamicPositions() {
   pacmanEl.style.backgroundColor = skin.color;
 
   let rotation = 0;
-  if (pacman.direction === "left") rotation = 180;
+  if (pacman.direction === "left")      rotation = 180;
   else if (pacman.direction === "up")   rotation = -90;
   else if (pacman.direction === "down") rotation = 90;
+
   pacmanEl.style.transform = `rotate(${rotation}deg)`;
 
   ghosts.forEach((ghost, i) => {
@@ -288,9 +250,7 @@ function updateDynamicPositions() {
   });
 }
 
-// ===========================
-// LOGICA DI GIOCO
-// ===========================
+// Logica di punteggio e gestione collisioni
 function updateHUD() {
   if (!scoreEl) return;
   scoreEl.textContent = score;
@@ -309,9 +269,7 @@ function checkCollision() {
   return ghosts.some((ghost) => ghost.x === pacman.x && ghost.y === pacman.y);
 }
 
-// ===========================
-// TIMER AUTORESTART
-// ===========================
+// Timer per il riavvio automatico della partita
 function fermaTimerAutoRestart() {
   if (restartCountdownId) {
     clearInterval(restartCountdownId);
@@ -341,9 +299,7 @@ function avviaTimerAutoRestart() {
   }, 1000);
 }
 
-// ===========================
-// REACTION PANEL: GIPHY GIF
-// ===========================
+// Pannello di reazione con GIF (Giphy o fallback)
 function setReactionImage(url, altText) {
   if (!reactionImageEl) return;
 
@@ -362,7 +318,6 @@ function setReactionImage(url, altText) {
 
 async function fetchGifUrl(tag) {
   if (!GIPHY_API_KEY) {
-    console.warn("⚠️ Nessuna GIPHY_API_KEY impostata.");
     return null;
   }
 
@@ -390,7 +345,6 @@ async function fetchGifUrl(tag) {
 
     return gifUrl;
   } catch (err) {
-    console.error("Errore Giphy:", err);
     return null;
   }
 }
@@ -429,16 +383,16 @@ async function showWinGif() {
   }
 }
 
-// ===========================
-// METEO: FETCH + TEMA
-// ===========================
+// Funzioni per leggere il meteo dall’API e applicare il tema
 async function getWeatherCodeForCoords(lat, lon) {
   const url =
     `${METEO_FORECAST_BASE}?latitude=${lat}&longitude=${lon}&current_weather=true`;
 
   const res = await fetch(url);
+
   if (!res.ok) throw new Error("Meteo API error: " + res.status);
   const data = await res.json();
+
   if (!data.current_weather) return null;
   return data.current_weather.weathercode;
 }
@@ -449,6 +403,7 @@ async function getWeatherCodeForCity(cityName) {
     `&count=1&language=en&format=json`;
 
   const res = await fetch(url);
+
   if (!res.ok) throw new Error("Geocoding error: " + res.status);
   const data = await res.json();
 
@@ -457,6 +412,7 @@ async function getWeatherCodeForCity(cityName) {
   }
 
   const { latitude, longitude, name, country } = data.results[0];
+
   const code = await getWeatherCodeForCoords(latitude, longitude);
   const label = country ? `${name}, ${country}` : name;
   return { weathercode: code, label };
@@ -478,9 +434,9 @@ function applicaTemaMeteo(weathercode) {
     return;
   }
 
-  if (weathercode === 0) {
+  if (weathercode >= 0 && weathercode <= 2) {
     body.classList.add("meteo-sereno");
-  } else if (weathercode >= 1 && weathercode <= 3) {
+  } else if (weathercode === 3) {
     body.classList.add("meteo-nuvoloso");
   } else if (weathercode >= 45 && weathercode <= 48) {
     body.classList.add("meteo-nebbia");
@@ -498,11 +454,16 @@ function applicaTemaMeteo(weathercode) {
 
 function descrizioneMeteoDaCodice(code) {
   if (code === null || code === undefined) return "Unknown";
+
   if (code === 0) return "Clear sky";
-  if (code >= 1 && code <= 3) return "Cloudy";
+  if (code === 1) return "Mostly clear";
+  if (code === 2) return "Partly cloudy";
+  if (code === 3) return "Cloudy";
+
   if (code >= 45 && code <= 48) return "Fog";
   if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return "Rain";
   if (code >= 71 && code <= 77) return "Snow";
+
   return "Mixed / unstable";
 }
 
@@ -525,7 +486,6 @@ async function caricaMeteoDefault() {
     applicaTemaMeteo(code);
     aggiornaWeatherStatus("default location", code);
   } catch (err) {
-    console.error("Errore meteo default:", err);
     applicaTemaMeteo(null);
     aggiornaWeatherStatus(null, null);
   }
@@ -533,6 +493,7 @@ async function caricaMeteoDefault() {
 
 async function caricaMeteoDaCityInput() {
   const cityRaw = cityInputEl ? cityInputEl.value.trim() : "";
+
   if (!cityRaw) {
     await caricaMeteoDefault();
     return;
@@ -540,6 +501,7 @@ async function caricaMeteoDaCityInput() {
 
   try {
     const res = await getWeatherCodeForCity(cityRaw);
+
     if (res.weathercode === null) {
       await caricaMeteoDefault();
       aggiornaWeatherStatus("default location", null, true);
@@ -548,14 +510,14 @@ async function caricaMeteoDaCityInput() {
     applicaTemaMeteo(res.weathercode);
     aggiornaWeatherStatus(res.label, res.weathercode);
   } catch (err) {
-    console.error("Errore meteo city:", err);
     await caricaMeteoDefault();
+    if (weatherStatusEl) {
+      weatherStatusEl.textContent = "Weather: error loading data";
+    }
   }
 }
 
-// ===========================
-// COLLISIONE (GAME OVER)
-// ===========================
+// Gestione Game Over e vittoria
 function gestisciCollisione() {
   if (gameState !== "playing") return;
   if (!checkCollision()) return;
@@ -586,9 +548,6 @@ function gestisciCollisione() {
   gameState = "gameover";
 }
 
-// ===========================
-// VITTORIA (TUTTI I PALLINI)
-// ===========================
 function gestisciVittoria() {
   if (gameState !== "playing") return;
 
@@ -616,9 +575,7 @@ function gestisciVittoria() {
   gameState = "win";
 }
 
-// ===========================
-// MOVIMENTO FANTASMI
-// ===========================
+// Movimento casuale dei fantasmi
 function moveGhosts() {
   const directions = ["up", "down", "left", "right"];
 
@@ -627,9 +584,9 @@ function moveGhosts() {
       let newX = ghost.x;
       let newY = ghost.y;
 
-      if (dir === "up") newY--;
-      else if (dir === "down") newY++;
-      else if (dir === "left") newX--;
+      if (dir === "up")   newY--;
+      else if (dir === "down")  newY++;
+      else if (dir === "left")  newX--;
       else if (dir === "right") newX++;
 
       return maze[newY] && maze[newY][newX] === 0;
@@ -641,9 +598,9 @@ function moveGhosts() {
       let newX = ghost.x;
       let newY = ghost.y;
 
-      if (randomDir === "up") newY--;
-      else if (randomDir === "down") newY++;
-      else if (randomDir === "left") newX--;
+      if (randomDir === "up")   newY--;
+      else if (randomDir === "down")  newY++;
+      else if (randomDir === "left")  newX--;
       else if (randomDir === "right") newX++;
 
       return { ...ghost, x: newX, y: newY };
@@ -667,14 +624,12 @@ function stopGhosts() {
   }
 }
 
-// ===========================
-// MOVIMENTO PAC-MAN
-// ===========================
+// Movimento di Pac-Man e gestione input
 function tryMovePacman() {
   let newX = pacman.x;
   let newY = pacman.y;
 
-  if (pacman.direction === "up") newY--;
+  if (pacman.direction === "up")        newY--;
   else if (pacman.direction === "down") newY++;
   else if (pacman.direction === "left") newX--;
   else if (pacman.direction === "right") newX++;
@@ -731,11 +686,8 @@ function handleKeyDown(e) {
   else if (e.key === "ArrowRight") changeDirection("right");
 }
 
-// ===========================
-// START / RESTART PARTITA
-// ===========================
+// Avvio, riavvio della partita e ritorno al menu
 function startGame(avatarIndex) {
-  // aggiorno eventuale skin passata (di solito selectedAvatarIndex)
   if (typeof avatarIndex === "number") {
     selectedAvatarIndex = avatarIndex;
   }
@@ -769,9 +721,21 @@ function startGame(avatarIndex) {
   riproduciSuono(suonoStart);
 }
 
-// ===========================
-// INIT DOM
-// ===========================
+function tornaAlMenu() {
+  stopGhosts();
+  if (pacmanMoveInterval) {
+    clearInterval(pacmanMoveInterval);
+    pacmanMoveInterval = null;
+  }
+  fermaTimerAutoRestart();
+  fermaMusicaGioco();
+  if (schermoGameover) {
+    schermoGameover.classList.add("nascosto");
+  }
+  showScreen("menu");
+}
+
+// Inizializzazione: query del DOM e listener
 document.addEventListener("DOMContentLoaded", function () {
   menuScreen  = document.getElementById("menu-screen");
   gameScreen  = document.getElementById("game-screen");
@@ -787,7 +751,6 @@ document.addEventListener("DOMContentLoaded", function () {
   reactionImageEl    = document.getElementById("reaction-image");
   titoloGameoverEl   = document.getElementById("titolo-gameover");
 
-  // METEO DOM
   cityInputEl     = document.getElementById("city-input");
   weatherBtnEl    = document.getElementById("weather-btn");
   weatherStatusEl = document.getElementById("weather-status");
@@ -798,22 +761,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // pulsante volume
-  volumeBtn = document.getElementById("volume-btn");
-  volumeBtn.addEventListener("click", () => {
-    volumeOn = !volumeOn;
-    volumeBtn.textContent = "VOLUME: " + (volumeOn ? "ON" : "OFF");
+  volumeBtn   = document.getElementById("volume-btn");
+  backMenuBtn = document.getElementById("back-menu-btn");
 
-    if (!volumeOn) {
-      fermaTuttiISuoni();
-    } else {
-      if (gameState === "playing" && suonoStart.ended) {
-        avviaMusicaGioco();
+  if (volumeBtn) {
+    volumeBtn.addEventListener("click", () => {
+      volumeOn = !volumeOn;
+      volumeBtn.textContent = "VOLUME: " + (volumeOn ? "ON" : "OFF");
+
+      if (!volumeOn) {
+        fermaTuttiISuoni();
+      } else {
+        if (gameState === "playing" && suonoStart.ended) {
+          avviaMusicaGioco();
+        }
       }
-    }
-  });
+    });
+  }
 
-  // selezione skin nel gioco (mini pallini nella HUD)
+  if (backMenuBtn) {
+    backMenuBtn.addEventListener("click", () => {
+      tornaAlMenu();
+    });
+  }
+
   const skinOptionEls = document.querySelectorAll(".skin-option");
   skinOptionEls.forEach((btn, index) => {
     btn.addEventListener("click", () => {
@@ -826,7 +797,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // bottone start game (non serve più selezionare la skin)
   const startBtn = document.getElementById("start-game-btn");
   if (startBtn) {
     startBtn.addEventListener("click", () => {
@@ -834,7 +804,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // bottoni game over / win
   if (bottoneRigioca) {
     bottoneRigioca.addEventListener("click", () => {
       startGame(selectedAvatarIndex);
@@ -843,24 +812,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (bottoneMenu) {
     bottoneMenu.addEventListener("click", () => {
-      stopGhosts();
-      if (pacmanMoveInterval) {
-        clearInterval(pacmanMoveInterval);
-        pacmanMoveInterval = null;
-      }
-      fermaTimerAutoRestart();
-      fermaMusicaGioco();
-      if (schermoGameover) {
-        schermoGameover.classList.add("nascosto");
-      }
-      showScreen("menu");
+      tornaAlMenu();
     });
   }
 
-  // controlli tastiera
   window.addEventListener("keydown", handleKeyDown);
 
-  // CONTROLLI TOUCH (mobile)
   const touchButtons = document.querySelectorAll(".touch-btn");
   touchButtons.forEach((btn) => {
     const dir = btn.dataset.dir;
@@ -876,11 +833,9 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("touchstart", handler);
   });
 
-  // tema default bianco/nero + testo meteo iniziale
   applicaTemaMeteo(null);
   aggiornaWeatherStatus("Not loaded", null);
 
-  // stato iniziale gioco (solo per preparare dots/maze mentre sei nel menu)
   maze = createMaze();
   initializeDots();
   showScreen("menu");
