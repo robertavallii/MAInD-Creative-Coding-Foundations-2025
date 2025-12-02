@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pac-Man Neon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- pann. iniziale -->
+    <section id="menu-screen" class="screen screen--center">
+      <div class="menu-box">
+
+        <h1 class="title">PACMAN</h1>
+
+        <!-- selez. meteo -->
+        <div class="weather-box">
+          <h2 class="subtitle-neon">Select your city</h2>
+
+          <div class="weather-row">
+            <input
+              id="city-input"
+              type="text"
+              placeholder="Enter city (e.g. Milan)"
+              class="weather-input"
+            />
+            <button id="weather-btn" class="weather-btn">LOAD WEATHER</button>
+          </div>
+
+          <p id="weather-status" class="weather-status">Weather: not loaded</p>
+        </div>
+
+        <button id="start-game-btn">START GAME</button>
+
+      </div>
+    </section>
+
+    <!-- pann. gioco -->
+    <section id="game-screen" class="screen screen--center screen--hidden">
+
+      <h1 class="title-neon title-neon--game">PACMAN</h1>
+
+      <!-- hud (score, colore skin, volume) -->
+      <div class="hud">
+
+        <div class="hud-item hud-score">
+          SCORE: <span id="score-value">0</span>
+        </div>
+
+        <div id="skin-selector" class="skin-selector">
+          <p class="skin-label">Select skin colour</p>
+          <div id="skin-options" class="skin-options">
+            <button class="skin-option skin-option-yellow" aria-label="Yellow"></button>
+            <button class="skin-option skin-option-pink"   aria-label="Pink"></button>
+            <button class="skin-option skin-option-cyan"   aria-label="Cyan"></button>
+            <button class="skin-option skin-option-green"  aria-label="Green"></button>
+            <button class="skin-option skin-option-purple" aria-label="Purple"></button>
+          </div>
+        </div>
+
+        <button id="volume-btn" class="volume-btn">VOLUME: ON</button>
+      </div>
+
+      <!-- board gioco -->
+      <div id="game-board" class="board"></div>
+
+      <!-- controlli tasti mob. -->
+      <div class="touch-controls">
+        <button class="touch-btn" data-dir="up">▲</button>
+        <div class="touch-controls-row">
+          <button class="touch-btn" data-dir="left">◀</button>
+          <button class="touch-btn" data-dir="down">▼</button>
+          <button class="touch-btn" data-dir="right">▶</button>
+        </div>
+      </div>
+
+      <!-- instruzioni -->
+      <div class="instructions">Use the arrow keys to move around</div>
+
+    </section>
+
+    <!-- pann. gameover e win -->
+    <section id="schermo-gameover" class="schermo centrato nascosto">
+      <div class="pannello-gameover">
+
+        <h1 id="titolo-gameover" class="titolo-gameover">GAME OVER</h1>
+
+        <p class="testo-punteggio">
+          Score: <span id="punteggio-finale">0</span>
+        </p>
+
+        <div class="reaction-panel">
+          <div class="reaction-image-wrapper">
+            <img id="reaction-image" class="reaction-image" alt="GIF reaction" />
+          </div>
+        </div>
+
+        <p class="testo-timer">
+          Automatic restart in <span id="secondi-restart">5</span> seconds...
+        </p>
+
+        <div class="bottoni-gameover">
+          <button id="bottone-rigioca" class="btn-primario">Play again</button>
+          <button id="bottone-menu"  class="btn-secondario">Back to menu</button>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
