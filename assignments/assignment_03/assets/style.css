@@ -1,6 +1,6 @@
-/* ==========================
-   RESET E BASE
-========================== */
+/* 
+   reset stile di base
+ */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -12,9 +12,7 @@ body {
   height: 100%;
 }
 
-/* ==========================
-   TIPOGRAFIA E VARIABILI TEMA
-========================== */
+/* tipog. e variabili tema meteo*/
 body {
   background: var(--color-bg);
   color: var(--color-text);
@@ -33,7 +31,7 @@ select {
   font-family: "Press Start 2P", system-ui, monospace;
 }
 
-/* Tema di default (e fallback) */
+/* Tema di default*/
 body,
 body.meteo-default {
   --color-bg: #ffffff;
@@ -41,7 +39,7 @@ body.meteo-default {
   --color-accent: #000000;
 }
 
-/* Temi collegati al meteo */
+/* temi meteo */
 body.meteo-sereno {
   --color-bg: #6cb7f5;
   --color-text: #0f1a2b;
@@ -77,9 +75,7 @@ body.meteo-neve {
   min-height: 100vh;
 }
 
-/* ==========================
-   LAYOUT SCHERMATE
-========================== */
+/* layout schermate */
 .screen {
   height: 100vh;
   width: 100%;
@@ -95,9 +91,7 @@ body.meteo-neve {
   display: none;
 }
 
-/* ==========================
-   TITOLI E TESTI
-========================== */
+/* titoli e testi */
 .title,
 .title-neon {
   font-size: 28px;
@@ -121,7 +115,7 @@ body.meteo-neve {
   text-align: center;
 }
 
-/* Testi schermata game over */
+/* testi pan. gameover */
 .titolo-gameover {
   font-size: 32px;
   margin-bottom: 8px;
@@ -145,9 +139,7 @@ body.meteo-neve {
   text-align: center;
 }
 
-/* ==========================
-   PANNELLO MENU INIZIALE
-========================== */
+/* pann. menu iniziale */
 .menu-box {
   text-align: center;
   padding: 28px 32px 24px;
@@ -162,9 +154,7 @@ body.meteo-neve {
   gap: 20px;
 }
 
-/* ==========================
-   BOTTONE START GAME
-========================== */
+/* start game button */
 #start-game-btn {
   margin-top: 10px;
   padding: 10px 40px;
@@ -185,9 +175,7 @@ body.meteo-neve {
   border-color: var(--color-accent);
 }
 
-/* ==========================
-   HUD SCHERMATA DI GIOCO
-========================== */
+/* had schermata gioco */
 #game-screen {
   display: flex;
   flex-direction: column;
@@ -235,9 +223,7 @@ body.meteo-neve {
   letter-spacing: 0.16em;
 }
 
-/* ==========================
-   SELETTORE SKIN PAC-MAN
-========================== */
+/* seletore skin pacman */
 .skin-selector {
   text-align: center;
   color: var(--color-text);
@@ -288,9 +274,7 @@ body.meteo-neve {
   background-color: #bf00ff;
 }
 
-/* ==========================
-   BOTTONE NAVIGAZIONE (BACK)
-========================== */
+/* bottone navigazione back */
 .back-btn {
   position: fixed;
   top: 24px;
@@ -324,9 +308,7 @@ body.meteo-neve {
   line-height: 1;
 }
 
-/* ==========================
-   BOARD DI GIOCO
-========================== */
+/* board gioco */
 .board {
   position: relative;
   margin: 0 auto;
@@ -387,9 +369,7 @@ body.meteo-neve {
   text-transform: uppercase;
 }
 
-/* ==========================
-   BOTTONI GENERICI (GAME OVER)
-========================== */
+/* bott.  */
 .btn-primario,
 .btn-secondario,
 .bottoni-gameover button {
@@ -418,9 +398,7 @@ body.meteo-neve {
   color: var(--color-accent);
 }
 
-/* ==========================
-   SCHERMATA GAME OVER
-========================== */
+/* game over*/
 .schermo {
   width: 100%;
   min-height: 100vh;
@@ -456,9 +434,7 @@ body.meteo-neve {
   gap: 28px;
 }
 
-/* ==========================
-   PANNELLO GIF (REACTION)
-========================== */
+/* reaction gif*/
 .reaction-panel {
   margin-top: 20px;
   padding: 12px 14px;
@@ -487,9 +463,7 @@ body.meteo-neve {
   display: block;
 }
 
-/* ==========================
-   UI METEO (INPUT + BUTTON)
-========================== */
+/* meteo ui  */
 .weather-box {
   width: 100%;
   max-width: 520px;
@@ -543,9 +517,7 @@ body.meteo-neve {
   margin-top: 4px;
 }
 
-/* ==========================
-   LOOK "PIXEL" GENERALE
-========================== */
+/* effetto pixel da rivedere */
 .menu-box,
 #start-game-btn,
 .board,
@@ -561,9 +533,7 @@ body.meteo-neve {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ==========================
-   CONTROLLI TOUCH (MOBILE)
-========================== */
+/* touch per mobile */
 .touch-controls {
   display: none;
   flex-direction: column;
@@ -588,9 +558,7 @@ body.meteo-neve {
   border-radius: 0;
 }
 
-/* ==========================
-   RESPONSIVE MOBILE
-========================== */
+/* responsive mobile */
 @media (max-width: 768px) {
   html,
   body {

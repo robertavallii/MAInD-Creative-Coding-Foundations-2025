@@ -1,53 +1,75 @@
-// Configurazione base della griglia e delle skin di Pac-Man
+// Config base: griglia + skin di Pac-Man
+
 const CELL_SIZE = 30;
 const GRID_WIDTH = 15;
 const GRID_HEIGHT = 15;
 
+// palette per le skin del pacman (usata nel selettore e nel render)
 const AVATAR_COLORS = [
-  { name: "Giallo Classico", color: "#FFD700", glow: "#FFA500" },
-  { name: "Neon Rosa",       color: "#FF1493", glow: "#FF69B4" },
-  { name: "Cyber Blu",       color: "#00FFFF", glow: "#0080FF" },
-  { name: "Verde Acido",     color: "#00FF00", glow: "#39FF14" },
-  { name: "Viola Elettrico", color: "#8B00FF", glow: "#8B00FF" }
+  { name: "Giallo Classico",  color: "#FFD700", glow: "#FFA500" },
+  { name: "Neon Rosa",        color: "#FF1493", glow: "#FF69B4" },
+  { name: "Cyber Blu",        color: "#00FFFF", glow: "#0080FF" },
+  { name: "Verde Acido",      color: "#00FF00", glow: "#39FF14" },
+  { name: "Viola Elettrico",  color: "#8B00FF", glow: "#8B00FF" }
 ];
 
-// Configurazione API esterne (Giphy e meteo Open-Meteo)
+
+// Config API esterne (Giphy + Open-Meteo)
 const GIPHY_API_KEY = "";
 const GIPHY_TAG_LOSE = "loser fail game over";
 const GIPHY_TAG_WIN  = "victory celebration win";
 const RESTART_SECONDS = 5;
 
+// coordinate di fallback (es. Svizzera / area generica)
 const DEFAULT_LAT = 46.0;
 const DEFAULT_LON = 8.9;
-const METEO_FORECAST_BASE   = "https://api.open-meteo.com/v1/forecast";
-const METEO_GEOCODING_BASE  = "https://geocoding-api.open-meteo.com/v1/search";
 
-// Setup dei suoni di gioco
+const METEO_FORECAST_BASE  = "https://api.open-meteo.com/v1/forecast";
+const METEO_GEOCODING_BASE = "https://geocoding-api.open-meteo.com/v1/search";
+
+
+// Audio di gioco
+
+// suoni principali 
 const suonoStart    = new Audio("assets/audio/audio_pacman_gamestart.mp3");
 const suonoPlaying  = new Audio("assets/audio/audio_pacman_playing.mp3");
 const suonoGameOver = new Audio("assets/audio/audio_pacman_gameover.mp3");
 
+// volume
 suonoStart.volume    = 0.8;
 suonoPlaying.volume  = 0.5;
 suonoGameOver.volume = 0.9;
 
+// musica e in loop gioco
 suonoPlaying.loop = true;
+
 let volumeOn = true;
 
-// Stato di gioco e variabili principali
+
+// Stato di gioco principale
+
 let gameState = "menu";
 let selectedAvatarIndex = 0;
 
+// posizione e direzione di pacman (coordinate nella griglia)
 let pacman = { x: 7, y: 7, direction: "right" };
+
+// punteggio
 let score = 0;
-let maze = null;
-let dots = [];
-let ghosts = [];
+
+// labirinto e elementi di gioco
+let maze = null;       // matrice 15x15 con 0 = vuoto, 1 = muro
+let dots = [];         // array di tutti i puntini
+let ghosts = [];       // array per fantasmi
+
+// id  interval,. per mov auto
 let ghostIntervalId = null;
 let pacmanMoveInterval = null;
 
+// cambia gif
 let lastLoseGifUrl = null;
 let lastWinGifUrl  = null;
+
 
 // Riferimenti al DOM
 let menuScreen, gameScreen;
@@ -62,17 +84,21 @@ let titoloGameoverEl;
 
 let cityInputEl, weatherBtnEl, weatherStatusEl;
 
+// timer 
 let restartCountdownId = null;
 let restartSeconds = RESTART_SECONDS;
 
+// rif. a elementi grafici di pacman e fantasmi
 let pacmanEl = null;
 let ghostEls = [];
 
-// Funzioni di gestione audio
+
+// Funzioni audio (start / loop / stop)
 function riproduciSuono(audio) {
   if (!volumeOn || !audio) return;
   audio.currentTime = 0;
-  audio.play().catch(() => {});
+  audio.play().catch(() => {
+  });
 }
 
 function avviaMusicaGioco() {
@@ -91,18 +117,23 @@ function fermaTuttiISuoni() {
   suonoPlaying.pause();
 }
 
+// quando termina il suono di start, parte la musica di gioco
 suonoStart.addEventListener("ended", () => {
   if (gameState === "playing" && volumeOn) {
     avviaMusicaGioco();
   }
 });
 
-// Creazione del labirinto e posizionamento dei pallini
+
+// percorsoo e puntini  +
+
+// creo una griglia 15x15 con obstacles
 function createMaze() {
   const m = Array(GRID_HEIGHT)
     .fill(null)
     .map(() => Array(GRID_WIDTH).fill(0));
 
+  // bordo esterno di muri
   for (let i = 0; i < GRID_HEIGHT; i++) {
     m[i][0] = 1;
     m[i][GRID_WIDTH - 1] = 1;
@@ -112,6 +143,7 @@ function createMaze() {
     m[GRID_HEIGHT - 1][j] = 1;
   }
 
+  // ostacoli interni 
   const obstacles = [
     [2, 2], [2, 3], [2, 4],
     [2, 10], [2, 11], [2, 12],
@@ -131,6 +163,7 @@ function createMaze() {
   return m;
 }
 
+// puntini su celle vuote
 function initializeDots() {
   const newDots = [];
   for (let y = 1; y < GRID_HEIGHT - 1; y++) {
@@ -143,13 +176,16 @@ function initializeDots() {
   dots = newDots;
 }
 
+// rimuove il puntino dal DOM quando pacman lo mangia
 function removeDotElement(x, y) {
   const selector = `.dot[data-x="${x}"][data-y="${y}"]`;
   const el = boardEl.querySelector(selector);
   if (el) el.remove();
 }
 
-// Gestione delle schermate (menu / gioco)
+
+// Gestione schermate (menu / gioco)
+
 function showScreen(name) {
   if (!menuScreen || !gameScreen) return;
 
@@ -158,12 +194,15 @@ function showScreen(name) {
 
   gameState = name;
 
+  // se non sono nella schermata di gioco, fermo la musica
   if (name !== "playing") {
     fermaMusicaGioco();
   }
 }
 
-// Rendering della board di gioco
+
+
+// Rendering della board (muri, puntini, pacman, fantasmi)
 function clearBoard() {
   if (!boardEl) return;
   boardEl.innerHTML = "";
@@ -171,11 +210,13 @@ function clearBoard() {
   ghostEls = [];
 }
 
+// costruisce il DOM della board partendo da maze + dots + ghosts
 function renderBoard() {
   if (!maze || !boardEl) return;
 
   clearBoard();
 
+  // muri
   for (let y = 0; y < GRID_HEIGHT; y++) {
     for (let x = 0; x < GRID_WIDTH; x++) {
       if (maze[y][x] === 1) {
@@ -190,6 +231,7 @@ function renderBoard() {
     }
   }
 
+  // puntini
   dots.forEach((dot) => {
     const dotEl = document.createElement("div");
     dotEl.className = "dot";
@@ -202,12 +244,13 @@ function renderBoard() {
     boardEl.appendChild(dotEl);
   });
 
+  // fantasmi (sprite impostato come background)
   ghosts.forEach((ghost) => {
     const ghostEl = document.createElement("div");
     ghostEl.className = "ghost";
     ghostEl.style.width  = CELL_SIZE - 6 + "px";
     ghostEl.style.height = CELL_SIZE - 6 + "px";
-    ghostEl.style.backgroundImage    = `url(${ghost.img})`;
+    ghostEl.style.backgroundImage    = `url("${ghost.img}")`;
     ghostEl.style.backgroundSize     = "contain";
     ghostEl.style.backgroundRepeat   = "no-repeat";
     ghostEl.style.backgroundPosition = "center";
@@ -216,25 +259,29 @@ function renderBoard() {
     ghostEls.push(ghostEl);
   });
 
+  // pacman
   pacmanEl = document.createElement("div");
   pacmanEl.className = "pacman";
   pacmanEl.style.width  = CELL_SIZE - 6 + "px";
   pacmanEl.style.height = CELL_SIZE - 6 + "px";
   boardEl.appendChild(pacmanEl);
 
+  // allineo le posizioni iniziali
   updateDynamicPositions();
 }
 
-// Aggiornamento delle posizioni di Pac-Man e dei fantasmi
+// aggiorna posizioni e aspetto di pacman + fantasmi nel DOM
 function updateDynamicPositions() {
   if (!pacmanEl) return;
 
   pacmanEl.style.left = pacman.x * CELL_SIZE + 3 + "px";
   pacmanEl.style.top  = pacman.y * CELL_SIZE + 3 + "px";
 
+  // colore di pacman basato sulla skin selezionata
   const skin = AVATAR_COLORS[selectedAvatarIndex] || AVATAR_COLORS[0];
   pacmanEl.style.backgroundColor = skin.color;
 
+  // rotazione per simulare la direzione (bocca)
   let rotation = 0;
   if (pacman.direction === "left")      rotation = 180;
   else if (pacman.direction === "up")   rotation = -90;
@@ -242,6 +289,7 @@ function updateDynamicPositions() {
 
   pacmanEl.style.transform = `rotate(${rotation}deg)`;
 
+  // fantasmi
   ghosts.forEach((ghost, i) => {
     const el = ghostEls[i];
     if (!el) return;
@@ -250,7 +298,9 @@ function updateDynamicPositions() {
   });
 }
 
-// Logica di punteggio e gestione collisioni
+
+// HUD (score) + gestione punteggio
+
 function updateHUD() {
   if (!scoreEl) return;
   scoreEl.textContent = score;
@@ -265,11 +315,14 @@ function resetGhosts() {
   ];
 }
 
+// collisione base: stesso x,y di pacman e fantasma
 function checkCollision() {
   return ghosts.some((ghost) => ghost.x === pacman.x && ghost.y === pacman.y);
 }
 
-// Timer per il riavvio automatico della partita
+
+// Timer per il riavvio automatico del game
+
 function fermaTimerAutoRestart() {
   if (restartCountdownId) {
     clearInterval(restartCountdownId);
@@ -299,7 +352,10 @@ function avviaTimerAutoRestart() {
   }, 1000);
 }
 
-// Pannello di reazione con GIF (Giphy o fallback)
+
+// Pannello di reazione (GIF da Giphy o fallback)
+
+// imposta l'immagine della reaction nel pannello game over / win
 function setReactionImage(url, altText) {
   if (!reactionImageEl) return;
 
@@ -309,6 +365,7 @@ function setReactionImage(url, altText) {
     return;
   }
 
+  // reset veloce per forzare il reload
   reactionImageEl.src = "";
   reactionImageEl.alt = "";
 
@@ -316,8 +373,10 @@ function setReactionImage(url, altText) {
   reactionImageEl.alt = altText || "GIF reaction";
 }
 
+// chiede a Giphy una GIF per un certo tag
 async function fetchGifUrl(tag) {
   if (!GIPHY_API_KEY) {
+    // se non ho la key, rinuncio e torno null
     return null;
   }
 
@@ -326,13 +385,14 @@ async function fetchGifUrl(tag) {
     const url =
       `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}` +
       `&q=${query}&limit=25&rating=g`;
-    const res = await fetch(url);
 
+    const res = await fetch(url);
     if (!res.ok) throw new Error("Giphy API error: " + res.status);
 
     const data = await res.json();
     if (!data.data || data.data.length === 0) return null;
 
+    // prendo una GIF random tra i risultati
     const randomIndex = Math.floor(Math.random() * data.data.length);
     const gifObj = data.data[randomIndex];
     const images = gifObj.images || {};
@@ -345,10 +405,12 @@ async function fetchGifUrl(tag) {
 
     return gifUrl;
   } catch (err) {
+    // in caso di errore, torno null e userò il fallback
     return null;
   }
 }
 
+// versione per la sconfitta
 async function showLoseGif() {
   let gifUrl = null;
   let attempts = 0;
@@ -362,10 +424,12 @@ async function showLoseGif() {
     setReactionImage(gifUrl, "Internet's reaction to your Game Over");
     lastLoseGifUrl = gifUrl;
   } else {
+    // fallback locale
     setReactionImage("assets/image/fantasma_azzurro.png", "Ghost reaction");
   }
 }
 
+// versione per la vittoria
 async function showWinGif() {
   let gifUrl = null;
   let attempts = 0;
@@ -379,34 +443,39 @@ async function showWinGif() {
     setReactionImage(gifUrl, "Internet celebrates your victory");
     lastWinGifUrl = gifUrl;
   } else {
+    // fallback locale
     setReactionImage("assets/image/fantasma_azzurro.png", "Ghost reaction");
   }
 }
 
-// Funzioni per leggere il meteo dall’API e applicare il tema
+
+
+// Funzioni meteo: chiamata API + tema visivo
+
+// dato lat/lon, chiedo il meteo attuale a Open-Meteo
 async function getWeatherCodeForCoords(lat, lon) {
-  const url =
-    `${METEO_FORECAST_BASE}?latitude=${lat}&longitude=${lon}&current_weather=true`;
+  const url = `${METEO_FORECAST_BASE}?latitude=${lat}&longitude=${lon}&current_weather=true`;
 
   const res = await fetch(url);
-
   if (!res.ok) throw new Error("Meteo API error: " + res.status);
-  const data = await res.json();
 
+  const data = await res.json();
   if (!data.current_weather) return null;
+
+  // prendo solo il weathercode, il resto non mi serve
   return data.current_weather.weathercode;
 }
 
+// dato il nome città, faccio prima geocoding → poi chiedo il meteo
 async function getWeatherCodeForCity(cityName) {
   const url =
     `${METEO_GEOCODING_BASE}?name=${encodeURIComponent(cityName)}` +
     `&count=1&language=en&format=json`;
 
   const res = await fetch(url);
-
   if (!res.ok) throw new Error("Geocoding error: " + res.status);
-  const data = await res.json();
 
+  const data = await res.json();
   if (!data.results || data.results.length === 0) {
     return { weathercode: null, label: null };
   }
@@ -418,8 +487,10 @@ async function getWeatherCodeForCity(cityName) {
   return { weathercode: code, label };
 }
 
+// mappa i codici meteo alle classi CSS del body
 function applicaTemaMeteo(weathercode) {
   const body = document.body;
+
   body.classList.remove(
     "meteo-sereno",
     "meteo-nuvoloso",
@@ -434,6 +505,7 @@ function applicaTemaMeteo(weathercode) {
     return;
   }
 
+  // mapping molto semplice sui range dei codici
   if (weathercode >= 0 && weathercode <= 2) {
     body.classList.add("meteo-sereno");
   } else if (weathercode === 3) {
@@ -452,6 +524,7 @@ function applicaTemaMeteo(weathercode) {
   }
 }
 
+// traduco il codice meteo in una stringa leggibile
 function descrizioneMeteoDaCodice(code) {
   if (code === null || code === undefined) return "Unknown";
 
@@ -467,6 +540,7 @@ function descrizioneMeteoDaCodice(code) {
   return "Mixed / unstable";
 }
 
+// aggiorno il testo sotto l'input del meteo
 function aggiornaWeatherStatus(label, code, isFallback = false) {
   if (!weatherStatusEl) return;
 
@@ -480,6 +554,7 @@ function aggiornaWeatherStatus(label, code, isFallback = false) {
   }
 }
 
+// carica il meteo di default (coordinate predefinite)
 async function caricaMeteoDefault() {
   try {
     const code = await getWeatherCodeForCoords(DEFAULT_LAT, DEFAULT_LON);
@@ -491,10 +566,12 @@ async function caricaMeteoDefault() {
   }
 }
 
+// carica il meteo in base all'input dell'utente (city name)
 async function caricaMeteoDaCityInput() {
   const cityRaw = cityInputEl ? cityInputEl.value.trim() : "";
 
   if (!cityRaw) {
+    // se input vuoto, vado di default
     await caricaMeteoDefault();
     return;
   }
@@ -503,6 +580,7 @@ async function caricaMeteoDaCityInput() {
     const res = await getWeatherCodeForCity(cityRaw);
 
     if (res.weathercode === null) {
+      // se non trovo la città, torno al default ma lo segnalo come fallback
       await caricaMeteoDefault();
       aggiornaWeatherStatus("default location", null, true);
       return;
@@ -517,11 +595,14 @@ async function caricaMeteoDaCityInput() {
   }
 }
 
-// Gestione Game Over e vittoria
+
+// Gestione game over e vittoria
+
 function gestisciCollisione() {
   if (gameState !== "playing") return;
   if (!checkCollision()) return;
 
+  // fermo il movimento
   if (pacmanMoveInterval) {
     clearInterval(pacmanMoveInterval);
     pacmanMoveInterval = null;
@@ -535,6 +616,7 @@ function gestisciCollisione() {
     titoloGameoverEl.textContent = "GAME OVER";
   }
 
+  // carico GIF sconfitta (o fallback)
   showLoseGif();
 
   if (finalScoreEl) {
@@ -551,6 +633,7 @@ function gestisciCollisione() {
 function gestisciVittoria() {
   if (gameState !== "playing") return;
 
+  // fermo il movimento
   if (pacmanMoveInterval) {
     clearInterval(pacmanMoveInterval);
     pacmanMoveInterval = null;
@@ -562,6 +645,7 @@ function gestisciVittoria() {
     titoloGameoverEl.textContent = "YOU WIN!";
   }
 
+  // carico GIF vittoria (o fallback)
   showWinGif();
 
   if (finalScoreEl) {
@@ -575,36 +659,42 @@ function gestisciVittoria() {
   gameState = "win";
 }
 
+
 // Movimento casuale dei fantasmi
+
 function moveGhosts() {
   const directions = ["up", "down", "left", "right"];
 
   ghosts = ghosts.map((ghost) => {
+    // calcolo tutte le mosse valide (celle non muro)
     const validMoves = directions.filter((dir) => {
       let newX = ghost.x;
       let newY = ghost.y;
 
-      if (dir === "up")   newY--;
-      else if (dir === "down")  newY++;
-      else if (dir === "left")  newX--;
+      if (dir === "up")        newY--;
+      else if (dir === "down") newY++;
+      else if (dir === "left") newX--;
       else if (dir === "right") newX++;
 
       return maze[newY] && maze[newY][newX] === 0;
     });
 
     if (validMoves.length > 0) {
+      // scelgo una direzione random tra quelle valide
       const randomDir =
         validMoves[Math.floor(Math.random() * validMoves.length)];
       let newX = ghost.x;
       let newY = ghost.y;
 
-      if (randomDir === "up")   newY--;
-      else if (randomDir === "down")  newY++;
-      else if (randomDir === "left")  newX--;
+      if (randomDir === "up")        newY--;
+      else if (randomDir === "down") newY++;
+      else if (randomDir === "left") newX--;
       else if (randomDir === "right") newX++;
 
       return { ...ghost, x: newX, y: newY };
     }
+
+    // se non ci sono mosse valide, il fantasma resta fermo
     return ghost;
   });
 
@@ -624,7 +714,11 @@ function stopGhosts() {
   }
 }
 
-// Movimento di Pac-Man e gestione input
+
+
+// Movimento di Pac-Man + input tastiera
+
+// prova a spostare pacman di una cella nella direzione corrente
 function tryMovePacman() {
   let newX = pacman.x;
   let newY = pacman.y;
@@ -634,13 +728,16 @@ function tryMovePacman() {
   else if (pacman.direction === "left") newX--;
   else if (pacman.direction === "right") newX++;
 
+  // se la cella successiva non è vuota (muro o fuori), non mi muovo
   if (!maze[newY] || maze[newY][newX] !== 0) {
     return;
   }
 
+  // aggiorno posizione
   pacman.x = newX;
   pacman.y = newY;
 
+  // controllo se ho mangiato un puntino
   const dotIndex = dots.findIndex((dot) => dot.x === newX && dot.y === newY);
   if (dotIndex !== -1) {
     const eaten = dots[dotIndex];
@@ -649,6 +746,7 @@ function tryMovePacman() {
     score += 10;
     updateHUD();
 
+    // se non ci sono più puntini → vittoria
     if (dots.length === 0) {
       gestisciVittoria();
       return;
@@ -659,6 +757,7 @@ function tryMovePacman() {
   gestisciCollisione();
 }
 
+// intervallo che muove pacman in automatico
 function startPacmanAutoMove() {
   if (pacmanMoveInterval) return;
 
@@ -668,15 +767,18 @@ function startPacmanAutoMove() {
   }, 140);
 }
 
+// cambio direzione (sia da tastiera che da touch)
 function changeDirection(newDir) {
   pacman.direction = newDir;
 
+  // se il movimento automatico non è ancora partito, lo avvio
   if (!pacmanMoveInterval) {
     startPacmanAutoMove();
     tryMovePacman();
   }
 }
 
+// gestione input tastiera
 function handleKeyDown(e) {
   if (gameState !== "playing") return;
 
@@ -686,7 +788,10 @@ function handleKeyDown(e) {
   else if (e.key === "ArrowRight") changeDirection("right");
 }
 
-// Avvio, riavvio della partita e ritorno al menu
+
+
+// Start / restart partita e ritorno al menu
+
 function startGame(avatarIndex) {
   if (typeof avatarIndex === "number") {
     selectedAvatarIndex = avatarIndex;
@@ -699,6 +804,7 @@ function startGame(avatarIndex) {
   }
   fermaTimerAutoRestart();
 
+  // reset stato di gioco
   pacman = { x: 7, y: 7, direction: "right" };
   score = 0;
   maze = createMaze();
@@ -711,6 +817,7 @@ function startGame(avatarIndex) {
     pacmanMoveInterval = null;
   }
 
+  // imposto dimensioni della board
   boardEl.style.width  = GRID_WIDTH * CELL_SIZE + "px";
   boardEl.style.height = GRID_HEIGHT * CELL_SIZE + "px";
 
@@ -718,6 +825,7 @@ function startGame(avatarIndex) {
   showScreen("playing");
   startGhosts();
 
+  // suono di start (poi parte il loop di gioco)
   riproduciSuono(suonoStart);
 }
 
@@ -735,14 +843,20 @@ function tornaAlMenu() {
   showScreen("menu");
 }
 
-// Inizializzazione: query del DOM e listener
+
+
+// Inizializzazione: query DOM + event listener
+
 document.addEventListener("DOMContentLoaded", function () {
+  // schermate
   menuScreen  = document.getElementById("menu-screen");
   gameScreen  = document.getElementById("game-screen");
 
+  // board + HUD
   boardEl = document.getElementById("game-board");
   scoreEl = document.getElementById("score-value");
 
+  // pannello gameover
   schermoGameover    = document.getElementById("schermo-gameover");
   finalScoreEl       = document.getElementById("punteggio-finale");
   bottoneRigioca     = document.getElementById("bottone-rigioca");
@@ -751,19 +865,23 @@ document.addEventListener("DOMContentLoaded", function () {
   reactionImageEl    = document.getElementById("reaction-image");
   titoloGameoverEl   = document.getElementById("titolo-gameover");
 
+  // elementi meteo (input + bottone + stato)
   cityInputEl     = document.getElementById("city-input");
   weatherBtnEl    = document.getElementById("weather-btn");
   weatherStatusEl = document.getElementById("weather-status");
 
+  // click sul bottone "LOAD WEATHER"
   if (weatherBtnEl) {
     weatherBtnEl.addEventListener("click", () => {
       caricaMeteoDaCityInput();
     });
   }
 
+  // volume + back to menu
   volumeBtn   = document.getElementById("volume-btn");
   backMenuBtn = document.getElementById("back-menu-btn");
 
+  // gestione volume
   if (volumeBtn) {
     volumeBtn.addEventListener("click", () => {
       volumeOn = !volumeOn;
@@ -779,12 +897,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // bottone per tornare al menu dalla schermata di gioco
   if (backMenuBtn) {
     backMenuBtn.addEventListener("click", () => {
       tornaAlMenu();
     });
   }
 
+  // selettore delle skin
   const skinOptionEls = document.querySelectorAll(".skin-option");
   skinOptionEls.forEach((btn, index) => {
     btn.addEventListener("click", () => {
@@ -797,6 +917,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // bottone start game nel menu
   const startBtn = document.getElementById("start-game-btn");
   if (startBtn) {
     startBtn.addEventListener("click", () => {
@@ -804,6 +925,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // bottoni dentro la schermata gameover
   if (bottoneRigioca) {
     bottoneRigioca.addEventListener("click", () => {
       startGame(selectedAvatarIndex);
@@ -816,8 +938,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+
+  // input da tastiera
   window.addEventListener("keydown", handleKeyDown);
 
+  // controlli touch (mobile)
   const touchButtons = document.querySelectorAll(".touch-btn");
   touchButtons.forEach((btn) => {
     const dir = btn.dataset.dir;
@@ -833,9 +958,11 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("touchstart", handler);
   });
 
+  // stato iniziale meteo: tema di default + testo "Not loaded"
   applicaTemaMeteo(null);
   aggiornaWeatherStatus("Not loaded", null);
 
+  // preparo la board in background (maze + dots) e mostro il menu
   maze = createMaze();
   initializeDots();
   showScreen("menu");
